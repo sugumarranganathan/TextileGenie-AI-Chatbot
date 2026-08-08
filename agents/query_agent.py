@@ -1,4 +1,3 @@
-cat > agents/query_agent.py <<'EOF'
 import re
 
 
@@ -156,4 +155,4 @@ class QueryUnderstandingAgent:
             "period_days": period_days,
             "metric": metric
         }
-EOF
+

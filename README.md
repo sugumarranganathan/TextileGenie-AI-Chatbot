@@ -2,6 +2,8 @@
 
 ## AI-Powered Textile Retail Business Assistant
 
+https://textilegenie-ai-chatbot.streamlit.app/
+
 TextileGenie is a **Rule-Based AI Business Intelligence Assistant** designed for textile retail businesses.
 
 It analyzes **product, sales, inventory, and purchase data** and converts business questions into useful data-driven answers, summaries, product rankings, and business recommendations.

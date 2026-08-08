@@ -1,0 +1,51 @@
+Sale_ID,Date,Product_ID,Product_Name,Category,Brand,Size,Color,Quantity,Selling_Price
+S1001,2026-07-20,P1001,Classic Formal Shirt,Shirt,Peter England,M,White,8,1299
+S1002,2026-07-20,P1003,Premium Formal Shirt,Shirt,Van Heusen,M,White,6,1599
+S1003,2026-07-20,P1005,Executive Shirt,Shirt,Louis Philippe,M,Blue,4,1799
+S1004,2026-07-20,P1009,Classic T-Shirt,T-Shirt,Levis,M,Black,7,1099
+S1005,2026-07-20,P1011,Slim Fit T-Shirt,T-Shirt,U.S. Polo,M,White,9,1299
+S1006,2026-07-21,P1001,Classic Formal Shirt,Shirt,Peter England,M,White,10,1299
+S1007,2026-07-21,P1002,Classic Formal Shirt,Shirt,Peter England,L,Blue,7,1299
+S1008,2026-07-21,P1003,Premium Formal Shirt,Shirt,Van Heusen,M,White,5,1599
+S1009,2026-07-21,P1013,Regular Jeans,Jeans,Levis,32,Blue,6,2199
+S1010,2026-07-21,P1015,Slim Fit Jeans,Jeans,U.S. Polo,32,Blue,4,1999
+S1011,2026-07-22,P1001,Classic Formal Shirt,Shirt,Peter England,M,White,12,1299
+S1012,2026-07-22,P1004,Premium Formal Shirt,Shirt,Van Heusen,L,Navy,8,1599
+S1013,2026-07-22,P1005,Executive Shirt,Shirt,Louis Philippe,M,Blue,3,1799
+S1014,2026-07-22,P1007,Casual Shirt,Shirt,Allen Solly,M,Green,2,1399
+S1015,2026-07-22,P1011,Slim Fit T-Shirt,T-Shirt,U.S. Polo,M,White,10,1299
+S1016,2026-07-23,P1001,Classic Formal Shirt,Shirt,Peter England,M,White,11,1299
+S1017,2026-07-23,P1003,Premium Formal Shirt,Shirt,Van Heusen,M,White,7,1599
+S1018,2026-07-23,P1005,Executive Shirt,Shirt,Louis Philippe,M,Blue,5,1799
+S1019,2026-07-23,P1013,Regular Jeans,Jeans,Levis,32,Blue,8,2199
+S1020,2026-07-23,P1017,Formal Pant,Pant,Raymond,32,Grey,3,1699
+S1021,2026-07-24,P1001,Classic Formal Shirt,Shirt,Peter England,M,White,13,1299
+S1022,2026-07-24,P1002,Classic Formal Shirt,Shirt,Peter England,L,Blue,9,1299
+S1023,2026-07-24,P1003,Premium Formal Shirt,Shirt,Van Heusen,M,White,6,1599
+S1024,2026-07-24,P1009,Classic T-Shirt,T-Shirt,Levis,M,Black,8,1099
+S1025,2026-07-24,P1011,Slim Fit T-Shirt,T-Shirt,U.S. Polo,M,White,11,1299
+S1026,2026-07-25,P1001,Classic Formal Shirt,Shirt,Peter England,M,White,14,1299
+S1027,2026-07-25,P1004,Premium Formal Shirt,Shirt,Van Heusen,L,Navy,7,1599
+S1028,2026-07-25,P1005,Executive Shirt,Shirt,Louis Philippe,M,Blue,4,1799
+S1029,2026-07-25,P1013,Regular Jeans,Jeans,Levis,32,Blue,7,2199
+S1030,2026-07-25,P1021,Cotton Kurti,Kurti,Raymond,M,Maroon,2,1199
+S1031,2026-07-26,P1001,Classic Formal Shirt,Shirt,Peter England,M,White,15,1299
+S1032,2026-07-26,P1002,Classic Formal Shirt,Shirt,Peter England,L,Blue,10,1299
+S1033,2026-07-26,P1003,Premium Formal Shirt,Shirt,Van Heusen,M,White,8,1599
+S1034,2026-07-26,P1005,Executive Shirt,Shirt,Louis Philippe,M,Blue,5,1799
+S1035,2026-07-26,P1011,Slim Fit T-Shirt,T-Shirt,U.S. Polo,M,White,9,1299
+S1036,2026-07-27,P1001,Classic Formal Shirt,Shirt,Peter England,M,White,16,1299
+S1037,2026-07-27,P1003,Premium Formal Shirt,Shirt,Van Heusen,M,White,9,1599
+S1038,2026-07-27,P1004,Premium Formal Shirt,Shirt,Van Heusen,L,Navy,6,1599
+S1039,2026-07-27,P1013,Regular Jeans,Jeans,Levis,32,Blue,5,2199
+S1040,2026-07-27,P1019,Office Pant,Pant,Park Avenue,32,Navy,2,1499
+S1041,2026-07-28,P1001,Classic Formal Shirt,Shirt,Peter England,M,White,18,1299
+S1042,2026-07-28,P1002,Classic Formal Shirt,Shirt,Peter England,L,Blue,11,1299
+S1043,2026-07-28,P1003,Premium Formal Shirt,Shirt,Van Heusen,M,White,10,1599
+S1044,2026-07-28,P1005,Executive Shirt,Shirt,Louis Philippe,M,Blue,4,1799
+S1045,2026-07-28,P1011,Slim Fit T-Shirt,T-Shirt,U.S. Polo,M,White,12,1299
+S1046,2026-07-29,P1001,Classic Formal Shirt,Shirt,Peter England,M,White,17,1299
+S1047,2026-07-29,P1003,Premium Formal Shirt,Shirt,Van Heusen,M,White,8,1599
+S1048,2026-07-29,P1004,Premium Formal Shirt,Shirt,Van Heusen,L,Navy,7,1599
+S1049,2026-07-29,P1013,Regular Jeans,Jeans,Levis,32,Blue,6,2199
+S1050,2026-07-29,P1015,Slim Fit Jeans,Jeans,U.S. Polo,32,Blue,3,1999

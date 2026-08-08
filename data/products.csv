@@ -1,0 +1,29 @@
+Product_ID,Product_Name,Category,Brand,Size,Color,MRP,Purchase_Price,Selling_Price
+P1001,Classic Formal Shirt,Shirt,Peter England,M,White,1499,850,1299
+P1002,Classic Formal Shirt,Shirt,Peter England,L,Blue,1499,850,1299
+P1003,Premium Formal Shirt,Shirt,Van Heusen,M,White,1799,1050,1599
+P1004,Premium Formal Shirt,Shirt,Van Heusen,L,Navy,1799,1050,1599
+P1005,Executive Shirt,Shirt,Louis Philippe,M,Blue,1999,1200,1799
+P1006,Executive Shirt,Shirt,Louis Philippe,XL,White,1999,1200,1799
+P1007,Casual Shirt,Shirt,Allen Solly,M,Green,1599,900,1399
+P1008,Casual Shirt,Shirt,Allen Solly,L,Black,1599,900,1399
+P1009,Classic T-Shirt,T-Shirt,Levis,M,Black,1299,700,1099
+P1010,Classic T-Shirt,T-Shirt,Levis,L,Blue,1299,700,1099
+P1011,Slim Fit T-Shirt,T-Shirt,U.S. Polo,M,White,1499,850,1299
+P1012,Slim Fit T-Shirt,T-Shirt,U.S. Polo,XL,Navy,1499,850,1299
+P1013,Regular Jeans,Jeans,Levis,32,Blue,2499,1450,2199
+P1014,Regular Jeans,Jeans,Levis,34,Black,2499,1450,2199
+P1015,Slim Fit Jeans,Jeans,U.S. Polo,32,Blue,2299,1350,1999
+P1016,Slim Fit Jeans,Jeans,U.S. Polo,34,Black,2299,1350,1999
+P1017,Formal Pant,Pant,Raymond,32,Grey,1899,1100,1699
+P1018,Formal Pant,Pant,Raymond,34,Black,1899,1100,1699
+P1019,Office Pant,Pant,Park Avenue,32,Navy,1699,950,1499
+P1020,Office Pant,Pant,Park Avenue,36,Black,1699,950,1499
+P1021,Cotton Kurti,Kurti,Raymond,M,Maroon,1399,780,1199
+P1022,Cotton Kurti,Kurti,Raymond,L,Green,1399,780,1199
+P1023,Designer Kurti,Kurti,Allen Solly,M,Red,1699,950,1499
+P1024,Designer Kurti,Kurti,Allen Solly,XL,Blue,1699,950,1499
+P1025,Cotton Saree,Saree,Raymond,Free Size,Red,2499,1450,2199
+P1026,Silk Saree,Saree,Raymond,Free Size,Maroon,3999,2400,3499
+P1027,Printed Saree,Saree,Allen Solly,Free Size,Green,1999,1150,1799
+P1028,Premium Saree,Saree,Peter England,Free Size,Blue,2999,1750,2599

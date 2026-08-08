@@ -7,16 +7,135 @@ from langgraph.graph import StateGraph, END
 
 from agents.state import TextileState
 
-from agents.query_agent import query_agent
-from agents.supervisor_agent import supervisor_agent
-from agents.sales_agent import sales_agent
-from agents.inventory_agent import inventory_agent
-from agents.purchase_agent import purchase_agent
-from agents.trend_agent import trend_agent
-from agents.forecast_agent import forecast_agent
-from agents.insight_agent import insight_agent
-from agents.recommendation_agent import recommendation_agent
-from agents.validation_agent import validation_agent
+from agents.query_agent import QueryUnderstandingAgent
+from agents.supervisor_agent import SupervisorAgent
+from agents.sales_agent import SalesAgent
+from agents.inventory_agent import InventoryAgent
+from agents.purchase_agent import PurchaseAgent
+from agents.trend_agent import TrendAgent
+from agents.forecast_agent import ForecastAgent
+from agents.insight_agent import InsightAgent
+from agents.recommendation_agent import RecommendationAgent
+from agents.validation_agent import ValidationAgent
+
+
+# ==========================================================
+# CREATE AGENT OBJECTS
+# ==========================================================
+
+query_agent = QueryUnderstandingAgent()
+
+supervisor_agent = SupervisorAgent()
+
+sales_agent = SalesAgent()
+
+inventory_agent = InventoryAgent()
+
+purchase_agent = PurchaseAgent()
+
+trend_agent = TrendAgent()
+
+forecast_agent = ForecastAgent()
+
+insight_agent = InsightAgent()
+
+recommendation_agent = RecommendationAgent()
+
+validation_agent = ValidationAgent()
+
+
+# ==========================================================
+# LANGGRAPH NODE FUNCTIONS
+# ==========================================================
+
+def query_node(state: TextileState):
+
+    result = query_agent.run(
+        state["question"]
+    )
+
+    return result
+
+
+def supervisor_node(state: TextileState):
+
+    result = supervisor_agent.run(
+        state
+    )
+
+    return result
+
+
+def sales_node(state: TextileState):
+
+    result = sales_agent.run(
+        state
+    )
+
+    return result
+
+
+def inventory_node(state: TextileState):
+
+    result = inventory_agent.run(
+        state
+    )
+
+    return result
+
+
+def purchase_node(state: TextileState):
+
+    result = purchase_agent.run(
+        state
+    )
+
+    return result
+
+
+def trend_node(state: TextileState):
+
+    result = trend_agent.run(
+        state
+    )
+
+    return result
+
+
+def forecast_node(state: TextileState):
+
+    result = forecast_agent.run(
+        state
+    )
+
+    return result
+
+
+def insight_node(state: TextileState):
+
+    result = insight_agent.run(
+        state
+    )
+
+    return result
+
+
+def recommendation_node(state: TextileState):
+
+    result = recommendation_agent.run(
+        state
+    )
+
+    return result
+
+
+def validation_node(state: TextileState):
+
+    result = validation_agent.run(
+        state
+    )
+
+    return result
 
 
 # ==========================================================
@@ -25,73 +144,78 @@ from agents.validation_agent import validation_agent
 
 def build_graph():
 
-    workflow = StateGraph(TextileState)
+    workflow = StateGraph(
+        TextileState
+    )
 
-    # ------------------------------------------------------
-    # ADD AGENTS
-    # ------------------------------------------------------
+
+    # ======================================================
+    # ADD NODES
+    # ======================================================
 
     workflow.add_node(
         "query",
-        query_agent
+        query_node
     )
 
     workflow.add_node(
         "supervisor",
-        supervisor_agent
+        supervisor_node
     )
 
     workflow.add_node(
         "sales",
-        sales_agent
+        sales_node
     )
 
     workflow.add_node(
         "inventory",
-        inventory_agent
+        inventory_node
     )
 
     workflow.add_node(
         "purchase",
-        purchase_agent
+        purchase_node
     )
 
     workflow.add_node(
         "trend",
-        trend_agent
+        trend_node
     )
 
     workflow.add_node(
         "forecast",
-        forecast_agent
+        forecast_node
     )
 
     workflow.add_node(
         "insight",
-        insight_agent
+        insight_node
     )
 
     workflow.add_node(
         "recommendation",
-        recommendation_agent
+        recommendation_node
     )
 
     workflow.add_node(
         "validation",
-        validation_agent
+        validation_node
     )
 
-    # ------------------------------------------------------
+
+    # ======================================================
     # START
-    # ------------------------------------------------------
+    # ======================================================
 
     workflow.set_entry_point(
         "query"
     )
 
-    # ------------------------------------------------------
-    # AGENT CONNECTIONS
-    # ------------------------------------------------------
+
+    # ======================================================
+    # WORKFLOW CONNECTIONS
+    # ======================================================
 
     workflow.add_edge(
         "query",
@@ -138,17 +262,19 @@ def build_graph():
         "validation"
     )
 
-    # ------------------------------------------------------
-    # FINAL
-    # ------------------------------------------------------
+
+    # ======================================================
+    # END
+    # ======================================================
 
     workflow.add_edge(
         "validation",
         END
     )
 
-    # ------------------------------------------------------
+
+    # ======================================================
     # COMPILE
-    # ------------------------------------------------------
+    # ======================================================
 
     return workflow.compile()

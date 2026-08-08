@@ -1,9 +1,9 @@
 # ==========================================================
 # TEXTILEGENIE AI CHATBOT
-# STREAMLIT APPLICATION
+# RULE-BASED AI STREAMLIT APPLICATION
 # ==========================================================
 
-import os
+import re
 import pandas as pd
 import streamlit as st
 
@@ -39,27 +39,19 @@ st.markdown(
         margin-bottom: 25px;
     }
 
-    .result-card {
-        padding: 20px;
-        border-radius: 15px;
+    .question-box {
+        padding: 15px;
+        border-radius: 12px;
         background-color: #f7f9fc;
         border: 1px solid #e5e7eb;
         margin-bottom: 15px;
     }
 
-    .success-text {
-        color: #16803c;
+    .or-text {
+        text-align: center;
         font-weight: 700;
-    }
-
-    .warning-text {
-        color: #b45309;
-        font-weight: 700;
-    }
-
-    .danger-text {
-        color: #dc2626;
-        font-weight: 700;
+        color: #777777;
+        margin: 12px 0;
     }
 
     </style>
@@ -180,58 +172,132 @@ with st.sidebar:
 
     st.markdown(
         """
-        **Agents**
+        **Rule-Based AI Modules**
 
         🧠 Query Understanding  
-        👑 Supervisor  
-        📊 Sales  
-        📦 Inventory  
-        🛒 Purchase  
-        📈 Trend  
-        🔮 Forecast  
-        💡 Insight  
-        📝 Recommendation  
-        ✅ Validation
+        👑 Business Routing  
+        📊 Sales Analysis  
+        📦 Inventory Analysis  
+        🛒 Purchase Analysis  
+        📈 Trend Analysis  
+        💡 Business Insights  
+        📝 Recommendations
         """
     )
+
+
+# ==========================================================
+# BUSINESS QUESTION SECTION
+# ==========================================================
+
+st.subheader(
+    "💬 Ask Your Business Question"
+)
+
+st.markdown(
+    """
+    Ask TextileGenie about your textile business.
+    You can type your own question or select an example.
+    """
+)
+
+
+# ==========================================================
+# CUSTOM QUESTION
+# ==========================================================
+
+custom_question = st.text_input(
+    "✍️ Type your own business question",
+    placeholder="Example: Which shirts sold the most in the last 10 days?"
+)
+
+
+# ==========================================================
+# OR
+# ==========================================================
+
+st.markdown(
+    '<div class="or-text">OR</div>',
+    unsafe_allow_html=True
+)
 
 
 # ==========================================================
 # EXAMPLE QUESTIONS
 # ==========================================================
 
-st.subheader("💬 Ask Your Business Question")
-
-st.markdown(
-    """
-    Ask TextileGenie questions about your textile shop.
-    """
-)
-
 example_questions = [
+
     "Which products moved fastest in the last 15 days?",
+
     "Which products were not sold?",
+
     "Which products are running low in stock?",
+
     "Which brand moved fastest?",
+
     "What products should I reorder?",
-    "Show me the sales trend."
+
+    "Show me the sales trend.",
+
+    "Which shirts sold the most?",
+
+    "Which jeans are selling fastest?",
+
+    "Which products have zero sales?",
+
+    "Which products need urgent restocking?",
+
+    "Which products have the highest stock?",
+
+    "Which products are slow-moving?",
+
+    "What should I purchase this week?",
+
+    "Which products should I promote?",
+
+    "Which products are performing best?"
 ]
 
 
 selected_example = st.selectbox(
-    "Example questions",
+    "📋 Example Questions",
     ["Select a question"] + example_questions
 )
 
 
-question = st.chat_input(
-    "Ask something about your textile business..."
+# ==========================================================
+# ANALYSE BUTTON
+# ==========================================================
+
+analyse_button = st.button(
+    "🔍 Analyse",
+    type="primary",
+    use_container_width=True
 )
 
 
-if question is None and selected_example != "Select a question":
+# ==========================================================
+# QUESTION SELECTION
+# ==========================================================
 
-    question = selected_example
+question = None
+
+if analyse_button:
+
+    if custom_question.strip():
+
+        question = custom_question.strip()
+
+    elif selected_example != "Select a question":
+
+        question = selected_example
+
+    else:
+
+        st.warning(
+            "Please type a question or select an example question."
+        )
 
 
 # ==========================================================
@@ -263,13 +329,22 @@ def prepare_sales_data(df):
     return df
 
 
+# ==========================================================
+# FIND QUANTITY COLUMN
+# ==========================================================
+
 def find_quantity_column(df):
 
     possible = [
+
         "Quantity",
+
         "quantity",
+
         "Units",
+
         "Units_Sold",
+
         "Number_of_Vehicles"
     ]
 
@@ -282,23 +357,63 @@ def find_quantity_column(df):
     return None
 
 
-def analyse_question(question):
+# ==========================================================
+# FIND DATE COLUMN
+# ==========================================================
 
-    q = question.lower()
+def find_date_column(df):
 
-    sales = prepare_sales_data(
-        sales_df
-    )
+    possible = [
 
-    result = {}
+        "Date",
 
-    # ------------------------------------------------------
-    # PERIOD
-    # ------------------------------------------------------
+        "date",
+
+        "Sale_Date",
+
+        "Sales_Date"
+    ]
+
+    for column in possible:
+
+        if column in df.columns:
+
+            return column
+
+    return None
+
+
+# ==========================================================
+# FIND PRODUCT COLUMN
+# ==========================================================
+
+def find_product_column(df):
+
+    possible = [
+
+        "Product_Name",
+
+        "Product",
+
+        "ProductName"
+    ]
+
+    for column in possible:
+
+        if column in df.columns:
+
+            return column
+
+    return None
+
+
+# ==========================================================
+# GET PERIOD
+# ==========================================================
+
+def get_period_days(q):
 
     period_days = 30
-
-    import re
 
     match = re.search(
         r"last\s+(\d+)\s+days?",
@@ -319,8 +434,91 @@ def analyse_question(question):
 
         period_days = 7
 
+    elif "last month" in q:
+
+        period_days = 30
+
+    elif "this week" in q:
+
+        period_days = 7
+
+    elif "this month" in q:
+
+        period_days = 30
+
+    return period_days
+
+
+# ==========================================================
+# GET CATEGORY
+# ==========================================================
+
+def get_category(q):
+
+    categories = {
+
+        "shirt": "Shirt",
+
+        "shirts": "Shirt",
+
+        "t-shirt": "T-Shirt",
+
+        "t-shirts": "T-Shirt",
+
+        "jean": "Jeans",
+
+        "jeans": "Jeans",
+
+        "pant": "Pant",
+
+        "pants": "Pant",
+
+        "kurti": "Kurti",
+
+        "kurtis": "Kurti",
+
+        "saree": "Saree",
+
+        "sarees": "Saree",
+
+        "dress": "Dress",
+
+        "dresses": "Dress"
+    }
+
+    for keyword, category in categories.items():
+
+        if keyword in q:
+
+            return category
+
+    return None
+
+
+# ==========================================================
+# BUSINESS ANALYSIS
+# ==========================================================
+
+def analyse_question(question):
+
+    q = question.lower().strip()
+
+    sales = prepare_sales_data(
+        sales_df
+    )
+
+    result = {}
+
     # ------------------------------------------------------
-    # QUANTITY COLUMN
+    # PERIOD
+    # ------------------------------------------------------
+
+    period_days = get_period_days(
+        q
+    )
+
+    # ------------------------------------------------------
+    # QUANTITY
     # ------------------------------------------------------
 
     quantity_column = find_quantity_column(
@@ -331,26 +529,17 @@ def analyse_question(question):
 
         return {
             "type": "error",
-            "message": "Sales quantity column was not found."
+            "message":
+                "Sales quantity column was not found."
         }
 
     # ------------------------------------------------------
-    # DATE FILTER
+    # DATE
     # ------------------------------------------------------
 
-    date_column = None
-
-    for column in [
-        "Date",
-        "date",
-        "Sale_Date",
-        "Sales_Date"
-    ]:
-
-        if column in sales.columns:
-
-            date_column = column
-            break
+    date_column = find_date_column(
+        sales
+    )
 
     if date_column:
 
@@ -365,14 +554,15 @@ def analyse_question(question):
             ].max()
 
             start_date = (
-                latest_date -
-                pd.Timedelta(
+                latest_date
+                - pd.Timedelta(
                     days=period_days - 1
                 )
             )
 
             filtered_sales = sales[
-                sales[date_column] >= start_date
+                sales[date_column]
+                >= start_date
             ]
 
         else:
@@ -384,52 +574,12 @@ def analyse_question(question):
         filtered_sales = sales
 
     # ------------------------------------------------------
-    # CATEGORY FILTER
+    # CATEGORY
     # ------------------------------------------------------
 
-    category = None
-
-    categories = [
-        "shirt",
-        "t-shirt",
-        "jeans",
-        "pant",
-        "kurti",
-        "saree",
-        "dress"
-    ]
-
-    for item in categories:
-
-        if item in q:
-
-            category = item
-
-            if category == "shirt":
-
-                category = "Shirt"
-
-            elif category == "t-shirt":
-
-                category = "T-Shirt"
-
-            elif category == "jeans":
-
-                category = "Jeans"
-
-            elif category == "pant":
-
-                category = "Pant"
-
-            elif category == "kurti":
-
-                category = "Kurti"
-
-            elif category == "saree":
-
-                category = "Saree"
-
-            break
+    category = get_category(
+        q
+    )
 
     if (
         category
@@ -437,53 +587,57 @@ def analyse_question(question):
     ):
 
         filtered_sales = filtered_sales[
-            filtered_sales["Category"]
+            filtered_sales[
+                "Category"
+            ]
             .astype(str)
             .str.lower()
             == category.lower()
         ]
 
     # ------------------------------------------------------
-    # PRODUCT NAME COLUMN
+    # PRODUCT COLUMN
     # ------------------------------------------------------
 
-    product_column = None
+    product_column = find_product_column(
+        filtered_sales
+    )
 
-    for column in [
-        "Product_Name",
-        "Product",
-        "ProductName"
-    ]:
-
-        if column in filtered_sales.columns:
-
-            product_column = column
-            break
-
-    # ------------------------------------------------------
-    # FAST MOVING
-    # ------------------------------------------------------
+    # ======================================================
+    # FAST MOVING PRODUCTS
+    # ======================================================
 
     if (
         "fast" in q
         or "best selling" in q
+        or "best-selling" in q
         or "top selling" in q
+        or "top-selling" in q
         or "moved fast" in q
+        or "most sold" in q
+        or "selling most" in q
+        or "selling fastest" in q
     ):
 
         if product_column:
 
             result_df = (
+
                 filtered_sales
-                .groupby(product_column)[
-                    quantity_column
-                ]
+
+                .groupby(
+                    product_column
+                )[quantity_column]
+
                 .sum()
+
                 .reset_index()
+
                 .sort_values(
                     quantity_column,
                     ascending=False
                 )
+
                 .head(10)
             )
 
@@ -503,15 +657,17 @@ def analyse_question(question):
 
             return result
 
-    # ------------------------------------------------------
+    # ======================================================
     # UNSOLD PRODUCTS
-    # ------------------------------------------------------
+    # ======================================================
 
     if (
         "not sold" in q
         or "unsold" in q
         or "zero sales" in q
         or "no sales" in q
+        or "didn't sell" in q
+        or "did not sell" in q
     ):
 
         if (
@@ -522,15 +678,16 @@ def analyse_question(question):
             sold_ids = set(
                 filtered_sales[
                     "Product_ID"
-                ].astype(str)
+                ]
+                .astype(str)
             )
 
             unsold = products_df[
                 ~products_df[
                     "Product_ID"
-                ].astype(str).isin(
-                    sold_ids
-                )
+                ]
+                .astype(str)
+                .isin(sold_ids)
             ].copy()
 
             result["type"] = "table"
@@ -549,37 +706,50 @@ def analyse_question(question):
 
             return result
 
-    # ------------------------------------------------------
+    # ======================================================
     # LOW STOCK
-    # ------------------------------------------------------
+    # ======================================================
 
     if (
         "low stock" in q
         or "running low" in q
         or "low inventory" in q
+        or "stock is low" in q
+        or "almost out of stock" in q
+        or "urgent stock" in q
+        or "urgent replenishment" in q
     ):
 
         stock_column = None
 
         for column in [
+
             "Current_Stock",
+
             "Stock",
+
             "Quantity"
         ]:
 
             if column in inventory_df.columns:
 
                 stock_column = column
+
                 break
 
         if stock_column:
 
-            low_stock = inventory_df[
+            low_stock = (
+
                 inventory_df[
+                    inventory_df[
+                        stock_column
+                    ] <= 10
+                ]
+
+                .sort_values(
                     stock_column
-                ] <= 10
-            ].sort_values(
-                stock_column
+                )
             )
 
             result["type"] = "table"
@@ -597,9 +767,66 @@ def analyse_question(question):
 
             return result
 
-    # ------------------------------------------------------
+    # ======================================================
+    # HIGH STOCK
+    # ======================================================
+
+    if (
+        "highest stock" in q
+        or "high stock" in q
+        or "most stock" in q
+        or "maximum stock" in q
+    ):
+
+        stock_column = None
+
+        for column in [
+
+            "Current_Stock",
+
+            "Stock",
+
+            "Quantity"
+        ]:
+
+            if column in inventory_df.columns:
+
+                stock_column = column
+
+                break
+
+        if stock_column:
+
+            high_stock = (
+
+                inventory_df
+
+                .sort_values(
+                    stock_column,
+                    ascending=False
+                )
+
+                .head(10)
+            )
+
+            result["type"] = "table"
+
+            result["title"] = (
+                "📦 Highest Stock Products"
+            )
+
+            result["data"] = high_stock
+
+            result["message"] = (
+                "These products currently have "
+                "the highest inventory levels."
+            )
+
+            return result
+
+    # ======================================================
     # PURCHASE / REORDER
-    # ------------------------------------------------------
+    # ======================================================
 
     if (
         "reorder" in q
@@ -607,19 +834,24 @@ def analyse_question(question):
         or "buy" in q
         or "restock" in q
         or "order" in q
+        or "replenish" in q
     ):
 
         stock_column = None
 
         for column in [
+
             "Current_Stock",
+
             "Stock",
+
             "Quantity"
         ]:
 
             if column in inventory_df.columns:
 
                 stock_column = column
+
                 break
 
         if stock_column:
@@ -633,8 +865,10 @@ def analyse_question(question):
             reorder[
                 "Suggested_Order"
             ] = (
-                30 -
-                reorder[stock_column]
+
+                30
+                - reorder[stock_column]
+
             ).clip(
                 lower=0
             )
@@ -654,23 +888,78 @@ def analyse_question(question):
 
             return result
 
-    # ------------------------------------------------------
+    # ======================================================
+    # SLOW MOVING
+    # ======================================================
+
+    if (
+        "slow moving" in q
+        or "slow-moving" in q
+        or "slow selling" in q
+        or "poor selling" in q
+    ):
+
+        if product_column:
+
+            slow = (
+
+                filtered_sales
+
+                .groupby(
+                    product_column
+                )[quantity_column]
+
+                .sum()
+
+                .reset_index()
+
+                .sort_values(
+                    quantity_column,
+                    ascending=True
+                )
+
+                .head(10)
+            )
+
+            result["type"] = "table"
+
+            result["title"] = (
+                f"🐢 Slow-Moving Products "
+                f"— Last {period_days} Days"
+            )
+
+            result["data"] = slow
+
+            result["message"] = (
+                "These products have the lowest "
+                "sales quantity during the selected period."
+            )
+
+            return result
+
+    # ======================================================
     # DEFAULT SALES SUMMARY
-    # ------------------------------------------------------
+    # ======================================================
 
     if product_column:
 
         summary = (
+
             filtered_sales
-            .groupby(product_column)[
-                quantity_column
-            ]
+
+            .groupby(
+                product_column
+            )[quantity_column]
+
             .sum()
+
             .reset_index()
+
             .sort_values(
                 quantity_column,
                 ascending=False
             )
+
             .head(10)
         )
 
@@ -688,9 +977,18 @@ def analyse_question(question):
 
         return result
 
+    # ======================================================
+    # UNKNOWN QUESTION
+    # ======================================================
+
     return {
+
         "type": "error",
-        "message": "I could not understand this business question."
+
+        "message":
+            "I could not understand this business question. "
+            "Try asking about sales, products, inventory, "
+            "stock, purchases, reorder, or trends."
     }
 
 
@@ -716,6 +1014,10 @@ if question and data_loaded:
                 question
             )
 
+            # ==================================================
+            # TABLE RESULT
+            # ==================================================
+
             if result["type"] == "table":
 
                 st.success(
@@ -732,18 +1034,25 @@ if question and data_loaded:
                     hide_index=True
                 )
 
-                # --------------------------------------------------
-                # SIMPLE CHART
-                # --------------------------------------------------
+                # ==============================================
+                # VISUAL ANALYSIS
+                # ==============================================
 
                 chart_df = result["data"]
 
                 if len(chart_df) > 0:
 
                     numeric_columns = (
-                        chart_df.select_dtypes(
+
+                        chart_df
+
+                        .select_dtypes(
                             include="number"
-                        ).columns.tolist()
+                        )
+
+                        .columns
+
+                        .tolist()
                     )
 
                     if numeric_columns:
@@ -753,39 +1062,57 @@ if question and data_loaded:
                         )
 
                         st.bar_chart(
+
                             chart_df.set_index(
                                 chart_df.columns[0]
                             )[numeric_columns[0]]
                         )
 
-                # --------------------------------------------------
+                # ==============================================
                 # BUSINESS SUGGESTIONS
-                # --------------------------------------------------
+                # ==============================================
 
                 st.markdown(
                     "### 💡 Business Suggestions"
                 )
 
+                q_lower = question.lower()
+
                 if (
-                    "low stock" in question.lower()
-                    or "reorder" in question.lower()
-                    or "purchase" in question.lower()
+                    "low stock" in q_lower
+                    or "reorder" in q_lower
+                    or "purchase" in q_lower
+                    or "restock" in q_lower
+                    or "replenish" in q_lower
+                    or "buy" in q_lower
                 ):
 
                     st.info(
                         "🛒 Review these products and "
-                        "consider replenishing the fast-moving items first."
+                        "consider replenishing fast-moving "
+                        "items first."
                     )
 
                 elif (
-                    "not sold" in question.lower()
-                    or "unsold" in question.lower()
+                    "not sold" in q_lower
+                    or "unsold" in q_lower
+                    or "zero sales" in q_lower
                 ):
 
                     st.warning(
                         "📢 Consider discounts, bundles, "
                         "promotions, or moving these products "
                         "to a better-selling category."
+                    )
+
+                elif (
+                    "slow" in q_lower
+                ):
+
+                    st.warning(
+                        "🐢 Consider promotional offers, "
+                        "bundles, or reducing future purchases "
+                        "for slow-moving products."
                     )
 
                 else:
@@ -817,5 +1144,5 @@ if question and data_loaded:
 st.markdown("---")
 
 st.caption(
-    "🧞 TextileGenie AI • Autonomous Textile Retail Business Assistant"
+    "🧞 TextileGenie AI • AI-Powered Textile Retail Business Assistant"
 )

@@ -1,0 +1,29 @@
+Product_ID,Product_Name,Category,Brand,Size,Color,Purchase_Price,Current_Stock
+P1001,Classic Formal Shirt,Shirt,Peter England,M,White,850,18
+P1002,Classic Formal Shirt,Shirt,Peter England,L,Blue,850,12
+P1003,Premium Formal Shirt,Shirt,Van Heusen,M,White,1050,15
+P1004,Premium Formal Shirt,Shirt,Van Heusen,L,Navy,1050,10
+P1005,Executive Shirt,Shirt,Louis Philippe,M,Blue,1200,8
+P1006,Executive Shirt,Shirt,Louis Philippe,XL,White,1200,20
+P1007,Casual Shirt,Shirt,Allen Solly,M,Green,900,25
+P1008,Casual Shirt,Shirt,Allen Solly,L,Black,900,30
+P1009,Classic T-Shirt,T-Shirt,Levis,M,Black,700,14
+P1010,Classic T-Shirt,T-Shirt,Levis,L,Blue,700,35
+P1011,Slim Fit T-Shirt,T-Shirt,U.S. Polo,M,White,850,11
+P1012,Slim Fit T-Shirt,T-Shirt,U.S. Polo,XL,Navy,850,28
+P1013,Regular Jeans,Jeans,Levis,32,Blue,1450,9
+P1014,Regular Jeans,Jeans,Levis,34,Black,1450,22
+P1015,Slim Fit Jeans,Jeans,U.S. Polo,32,Blue,1350,7
+P1016,Slim Fit Jeans,Jeans,U.S. Polo,34,Black,1350,24
+P1017,Formal Pant,Pant,Raymond,32,Grey,1100,16
+P1018,Formal Pant,Pant,Raymond,34,Black,1100,21
+P1019,Office Pant,Pant,Park Avenue,32,Navy,950,6
+P1020,Office Pant,Pant,Park Avenue,36,Black,950,27
+P1021,Cotton Kurti,Kurti,Raymond,M,Maroon,780,18
+P1022,Cotton Kurti,Kurti,Raymond,L,Green,780,20
+P1023,Designer Kurti,Kurti,Allen Solly,M,Red,950,32
+P1024,Designer Kurti,Kurti,Allen Solly,XL,Blue,950,25
+P1025,Cotton Saree,Saree,Raymond,Free Size,Red,1450,13
+P1026,Silk Saree,Saree,Raymond,Free Size,Maroon,2400,5
+P1027,Printed Saree,Saree,Allen Solly,Free Size,Green,1150,19
+P1028,Premium Saree,Saree,Peter England,Free Size,Blue,1750,8

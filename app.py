@@ -80,7 +80,7 @@ st.markdown(
 st.markdown(
     """
     <div class="subtitle">
-    Autonomous AI Business Assistant for Textile Retail Shops
+    AI-Powered Textile Retail Business Assistant
     </div>
     """,
     unsafe_allow_html=True

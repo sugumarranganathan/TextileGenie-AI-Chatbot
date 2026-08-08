@@ -1,0 +1,41 @@
+Purchase_ID,Date,Product_ID,Product_Name,Brand,Category,Quantity,Purchase_Price,Supplier
+PU1001,2026-07-01,P1001,Classic Formal Shirt,Peter England,Shirt,40,850,Chennai Textile Suppliers
+PU1002,2026-07-01,P1003,Premium Formal Shirt,Van Heusen,Shirt,35,1050,Coimbatore Wholesale
+PU1003,2026-07-01,P1005,Executive Shirt,Louis Philippe,Shirt,25,1200,Tiruppur Garment Suppliers
+PU1004,2026-07-01,P1007,Casual Shirt,Allen Solly,Shirt,30,900,Madurai Garments
+PU1005,2026-07-02,P1009,Classic T-Shirt,Levis,T-Shirt,35,700,Tiruppur Garment Suppliers
+PU1006,2026-07-02,P1011,Slim Fit T-Shirt,U.S. Polo,T-Shirt,40,850,Coimbatore Wholesale
+PU1007,2026-07-03,P1013,Regular Jeans,Levis,Jeans,25,1450,Bengaluru Fashion Supply
+PU1008,2026-07-03,P1015,Slim Fit Jeans,U.S. Polo,Jeans,20,1350,Bengaluru Fashion Supply
+PU1009,2026-07-04,P1017,Formal Pant,Raymond,Pant,30,1100,Chennai Textile Suppliers
+PU1010,2026-07-04,P1019,Office Pant,Park Avenue,Pant,20,950,Madurai Garments
+PU1011,2026-07-05,P1021,Cotton Kurti,Raymond,Kurti,25,780,Madurai Garments
+PU1012,2026-07-05,P1023,Designer Kurti,Allen Solly,Kurti,30,950,Chennai Textile Suppliers
+PU1013,2026-07-06,P1025,Cotton Saree,Raymond,Saree,20,1450,Coimbatore Wholesale
+PU1014,2026-07-06,P1026,Silk Saree,Raymond,Saree,10,2400,Chennai Textile Suppliers
+PU1015,2026-07-07,P1028,Premium Saree,Peter England,Saree,15,1750,Madurai Garments
+PU1016,2026-07-08,P1001,Classic Formal Shirt,Peter England,Shirt,35,850,Chennai Textile Suppliers
+PU1017,2026-07-08,P1002,Classic Formal Shirt,Peter England,Shirt,30,850,Chennai Textile Suppliers
+PU1018,2026-07-09,P1003,Premium Formal Shirt,Van Heusen,Shirt,30,1050,Coimbatore Wholesale
+PU1019,2026-07-09,P1004,Premium Formal Shirt,Van Heusen,Shirt,25,1050,Coimbatore Wholesale
+PU1020,2026-07-10,P1005,Executive Shirt,Louis Philippe,Shirt,20,1200,Tiruppur Garment Suppliers
+PU1021,2026-07-10,P1011,Slim Fit T-Shirt,U.S. Polo,T-Shirt,35,850,Tiruppur Garment Suppliers
+PU1022,2026-07-11,P1013,Regular Jeans,Levis,Jeans,25,1450,Bengaluru Fashion Supply
+PU1023,2026-07-11,P1015,Slim Fit Jeans,U.S. Polo,Jeans,20,1350,Bengaluru Fashion Supply
+PU1024,2026-07-12,P1017,Formal Pant,Raymond,Pant,25,1100,Chennai Textile Suppliers
+PU1025,2026-07-12,P1021,Cotton Kurti,Raymond,Kurti,20,780,Madurai Garments
+PU1026,2026-07-13,P1025,Cotton Saree,Raymond,Saree,15,1450,Coimbatore Wholesale
+PU1027,2026-07-14,P1001,Classic Formal Shirt,Peter England,Shirt,45,850,Chennai Textile Suppliers
+PU1028,2026-07-14,P1003,Premium Formal Shirt,Van Heusen,Shirt,40,1050,Coimbatore Wholesale
+PU1029,2026-07-15,P1009,Classic T-Shirt,Levis,T-Shirt,30,700,Tiruppur Garment Suppliers
+PU1030,2026-07-15,P1011,Slim Fit T-Shirt,U.S. Polo,T-Shirt,45,850,Coimbatore Wholesale
+PU1031,2026-07-16,P1013,Regular Jeans,Levis,Jeans,30,1450,Bengaluru Fashion Supply
+PU1032,2026-07-16,P1019,Office Pant,Park Avenue,Pant,20,950,Madurai Garments
+PU1033,2026-07-17,P1023,Designer Kurti,Allen Solly,Kurti,25,950,Chennai Textile Suppliers
+PU1034,2026-07-17,P1026,Silk Saree,Raymond,Saree,8,2400,Chennai Textile Suppliers
+PU1035,2026-07-18,P1001,Classic Formal Shirt,Peter England,Shirt,40,850,Chennai Textile Suppliers
+PU1036,2026-07-18,P1003,Premium Formal Shirt,Van Heusen,Shirt,35,1050,Coimbatore Wholesale
+PU1037,2026-07-19,P1005,Executive Shirt,Louis Philippe,Shirt,20,1200,Tiruppur Garment Suppliers
+PU1038,2026-07-19,P1011,Slim Fit T-Shirt,U.S. Polo,T-Shirt,35,850,Coimbatore Wholesale
+PU1039,2026-07-20,P1013,Regular Jeans,Levis,Jeans,25,1450,Bengaluru Fashion Supply
+PU1040,2026-07-20,P1021,Cotton Kurti,Raymond,Kurti,20,780,Madurai Garments

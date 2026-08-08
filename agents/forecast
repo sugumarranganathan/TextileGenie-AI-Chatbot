@@ -1,0 +1,262 @@
+from langgraph.graph import StateGraph, START, END
+
+from agents.state import TextileState
+
+from agents.query_agent import QueryUnderstandingAgent
+from agents.sales_agent import SalesAgent
+from agents.inventory_agent import InventoryAgent
+from agents.purchase_agent import PurchaseAgent
+from agents.trend_agent import TrendAgent
+from agents.forecast_agent import ForecastAgent
+from agents.insight_agent import InsightAgent
+from agents.recommendation_agent import RecommendationAgent
+from agents.validation_agent import ValidationAgent
+
+
+# ==========================================================
+# AGENT OBJECTS
+# ==========================================================
+
+query_agent = QueryUnderstandingAgent()
+sales_agent = SalesAgent()
+inventory_agent = InventoryAgent()
+purchase_agent = PurchaseAgent()
+trend_agent = TrendAgent()
+forecast_agent = ForecastAgent()
+insight_agent = InsightAgent()
+recommendation_agent = RecommendationAgent()
+validation_agent = ValidationAgent()
+
+
+# ==========================================================
+# QUERY UNDERSTANDING
+# ==========================================================
+
+def query_node(state: TextileState):
+
+    result = query_agent.run(
+        state["question"]
+    )
+
+    return result
+
+
+# ==========================================================
+# SALES
+# ==========================================================
+
+def sales_node(state: TextileState):
+
+    result = sales_agent.run(state)
+
+    return {
+        "analysis": result
+    }
+
+
+# ==========================================================
+# INVENTORY
+# ==========================================================
+
+def inventory_node(state: TextileState):
+
+    result = inventory_agent.run(state)
+
+    return {
+        "inventory_result": result
+    }
+
+
+# ==========================================================
+# PURCHASE
+# ==========================================================
+
+def purchase_node(state: TextileState):
+
+    result = purchase_agent.run(state)
+
+    return {
+        "purchase_result": result
+    }
+
+
+# ==========================================================
+# TREND
+# ==========================================================
+
+def trend_node(state: TextileState):
+
+    result = trend_agent.run(state)
+
+    return {
+        "trend": result
+    }
+
+
+# ==========================================================
+# FORECAST
+# ==========================================================
+
+def forecast_node(state: TextileState):
+
+    result = forecast_agent.run(state)
+
+    return {
+        "forecast": result
+    }
+
+
+# ==========================================================
+# BUSINESS INSIGHT
+# ==========================================================
+
+def insight_node(state: TextileState):
+
+    result = insight_agent.run(state)
+
+    return {
+        "insights": result
+    }
+
+
+# ==========================================================
+# RECOMMENDATION
+# ==========================================================
+
+def recommendation_node(state: TextileState):
+
+    result = recommendation_agent.run(state)
+
+    return {
+        "recommendations": result
+    }
+
+
+# ==========================================================
+# VALIDATION
+# ==========================================================
+
+def validation_node(state: TextileState):
+
+    result = validation_agent.run(state)
+
+    return {
+        "validation": result
+    }
+
+
+# ==========================================================
+# BUILD LANGGRAPH
+# ==========================================================
+
+def build_graph():
+
+    graph = StateGraph(TextileState)
+
+
+    # -----------------------------
+    # ADD NODES
+    # -----------------------------
+
+    graph.add_node(
+        "query",
+        query_node
+    )
+
+    graph.add_node(
+        "sales",
+        sales_node
+    )
+
+    graph.add_node(
+        "inventory",
+        inventory_node
+    )
+
+    graph.add_node(
+        "purchase",
+        purchase_node
+    )
+
+    graph.add_node(
+        "trend",
+        trend_node
+    )
+
+    graph.add_node(
+        "forecast",
+        forecast_node
+    )
+
+    graph.add_node(
+        "insight",
+        insight_node
+    )
+
+    graph.add_node(
+        "recommendation",
+        recommendation_node
+    )
+
+    graph.add_node(
+        "validation",
+        validation_node
+    )
+
+
+    # -----------------------------
+    # FLOW
+    # -----------------------------
+
+    graph.add_edge(
+        START,
+        "query"
+    )
+
+    graph.add_edge(
+        "query",
+        "sales"
+    )
+
+    graph.add_edge(
+        "sales",
+        "inventory"
+    )
+
+    graph.add_edge(
+        "inventory",
+        "purchase"
+    )
+
+    graph.add_edge(
+        "purchase",
+        "trend"
+    )
+
+    graph.add_edge(
+        "trend",
+        "forecast"
+    )
+
+    graph.add_edge(
+        "forecast",
+        "insight"
+    )
+
+    graph.add_edge(
+        "insight",
+        "recommendation"
+    )
+
+    graph.add_edge(
+        "recommendation",
+        "validation"
+    )
+
+    graph.add_edge(
+        "validation",
+        END
+    )
+
+
+    return graph.compile()

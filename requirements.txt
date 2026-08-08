@@ -2,7 +2,4 @@ streamlit
 pandas
 numpy
 plotly
-langchain
-langgraph
-langchain-groq
 python-dotenv

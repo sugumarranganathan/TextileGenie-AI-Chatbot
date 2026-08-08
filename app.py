@@ -54,6 +54,26 @@ st.markdown(
 
 
 # ==========================================================
+# SESSION STATE
+# ==========================================================
+
+if "input_mode" not in st.session_state:
+    st.session_state.input_mode = "✍️ Custom Question"
+
+if "custom_question" not in st.session_state:
+    st.session_state.custom_question = ""
+
+if "selected_example" not in st.session_state:
+    st.session_state.selected_example = "Select a question"
+
+if "question" not in st.session_state:
+    st.session_state.question = None
+
+if "analysis_result" not in st.session_state:
+    st.session_state.analysis_result = None
+
+
+# ==========================================================
 # HEADER
 # ==========================================================
 
@@ -106,6 +126,10 @@ def load_data():
         purchase
     )
 
+
+# ==========================================================
+# LOAD DATA SAFELY
+# ==========================================================
 
 try:
 
@@ -202,29 +226,22 @@ st.subheader(
 
 st.write(
     "Ask TextileGenie about your textile business. "
-    "You can type your own question or select an example."
+    "Choose either a custom question or an example question."
 )
 
 
 # ==========================================================
-# CUSTOM QUESTION
+# INPUT MODE
 # ==========================================================
 
-custom_question = st.text_input(
-    "✍️ Type your own business question",
-    placeholder=(
-        "Example: Which shirt is costly in this shop?"
-    )
-)
-
-
-# ==========================================================
-# OR
-# ==========================================================
-
-st.markdown(
-    '<div class="or-text">OR</div>',
-    unsafe_allow_html=True
+input_mode = st.radio(
+    "Choose question type",
+    [
+        "✍️ Custom Question",
+        "📋 Example Question"
+    ],
+    horizontal=True,
+    key="input_mode"
 )
 
 
@@ -432,44 +449,182 @@ example_questions = [
 ]
 
 
-selected_example = st.selectbox(
-    "📋 Example Questions",
-    ["Select a question"] + example_questions
-)
+# ==========================================================
+# CUSTOM QUESTION MODE
+# ==========================================================
+
+if input_mode == "✍️ Custom Question":
+
+    st.markdown(
+        "✍️ **Type your own business question**"
+    )
+
+    custom_question = st.text_input(
+        "Custom Question",
+        placeholder=(
+            "Example: Which shirt is costly in this shop?"
+        ),
+        label_visibility="collapsed",
+        key="custom_question"
+    )
+
+    st.info(
+        "You are using Custom Question mode."
+    )
+
+
+# ==========================================================
+# EXAMPLE QUESTION MODE
+# ==========================================================
+
+else:
+
+    st.markdown(
+        "📋 **Select an example question**"
+    )
+
+    selected_example = st.selectbox(
+        "Example Questions",
+        [
+            "Select a question"
+        ] + example_questions,
+        key="selected_example"
+    )
+
+    st.info(
+        "You are using Example Question mode."
+    )
+
+
+# ==========================================================
+# BUTTONS
+# ==========================================================
+
+col1, col2 = st.columns(2)
 
 
 # ==========================================================
 # ANALYSE BUTTON
 # ==========================================================
 
-analyse_button = st.button(
-    "🔍 Analyse",
-    type="primary",
-    use_container_width=True
-)
+with col1:
+
+    analyse_button = st.button(
+        "🔍 Analyse",
+        type="primary",
+        use_container_width=True
+    )
 
 
 # ==========================================================
-# SELECT QUESTION
+# CLEAR BUTTON
 # ==========================================================
 
-question = None
+with col2:
+
+    clear_button = st.button(
+        "🧹 Clear",
+        use_container_width=True
+    )
+
+
+# ==========================================================
+# CLEAR ACTION
+# ==========================================================
+
+if clear_button:
+
+    st.session_state.custom_question = ""
+
+    st.session_state.selected_example = (
+        "Select a question"
+    )
+
+    st.session_state.question = None
+
+    st.session_state.analysis_result = None
+
+    st.rerun()
+
+
+# ==========================================================
+# SELECT QUESTION FOR ANALYSIS
+# ==========================================================
 
 if analyse_button:
 
-    if custom_question.strip():
+    question = None
 
-        question = custom_question.strip()
+    # ------------------------------------------------------
+    # CUSTOM QUESTION
+    # ------------------------------------------------------
 
-    elif selected_example != "Select a question":
+    if input_mode == "✍️ Custom Question":
 
-        question = selected_example
+        if custom_question.strip():
 
-    else:
+            question = custom_question.strip()
 
-        st.warning(
-            "Please type a question or select an example question."
-        )
+        else:
+
+            st.warning(
+                "⚠️ Please type your business question."
+            )
+
+    # ------------------------------------------------------
+    # EXAMPLE QUESTION
+    # ------------------------------------------------------
+
+    elif input_mode == "📋 Example Question":
+
+        if (
+            selected_example
+            and
+            selected_example != "Select a question"
+        ):
+
+            question = selected_example
+
+        else:
+
+            st.warning(
+                "⚠️ Please select an example question."
+            )
+
+    # ------------------------------------------------------
+    # SAVE QUESTION
+    # ------------------------------------------------------
+
+    if question:
+
+        st.session_state.question = question
+
+        # Clear previous result
+        st.session_state.analysis_result = None
+
+
+# ==========================================================
+# ACTIVE QUESTION
+# ==========================================================
+
+question = st.session_state.question
+
+
+# ==========================================================
+# SHOW ACTIVE QUESTION
+# ==========================================================
+
+if question:
+
+    st.markdown("---")
+
+    st.markdown(
+        "### 🔎 Question Being Analysed"
+    )
+
+    st.info(
+        f"**{question}**"
+    )
 
 
 # ==========================================================
@@ -479,6 +634,7 @@ if analyse_button:
 def understand_question(question):
 
     q = question.lower().strip()
+
 
     # ======================================================
     # PERIOD
@@ -531,39 +687,30 @@ def understand_question(question):
     categories = {
 
         "shirts": "Shirt",
-
         "shirt": "Shirt",
 
         "t-shirts": "T-Shirt",
-
         "t-shirt": "T-Shirt",
 
         "jeans": "Jeans",
-
         "jean": "Jeans",
 
         "pants": "Pant",
-
         "pant": "Pant",
 
         "kurtis": "Kurti",
-
         "kurti": "Kurti",
 
         "sarees": "Saree",
-
         "saree": "Saree",
 
         "dresses": "Dress",
-
         "dress": "Dress",
 
         "tops": "Top",
-
         "top": "Top",
 
         "jackets": "Jacket",
-
         "jacket": "Jacket"
     }
 
@@ -1178,7 +1325,10 @@ def merge_product_information(df):
 # APPLY CATEGORY TO PRODUCTS
 # ==========================================================
 
-def filter_products_by_category(df, category):
+def filter_products_by_category(
+    df,
+    category
+):
 
     if (
         category
@@ -1202,7 +1352,6 @@ def filter_products_by_category(df, category):
 def extract_brand(question):
 
     if "Brand" not in products_df.columns:
-
         return None
 
     brands = (
@@ -1228,7 +1377,10 @@ def extract_brand(question):
 # FILTER BY BRAND
 # ==========================================================
 
-def filter_by_brand(df, brand):
+def filter_by_brand(
+    df,
+    brand
+):
 
     if (
         brand
@@ -1420,7 +1572,8 @@ def unsold_products(info):
         return {
             "type": "error",
             "message":
-                "Product_ID is required to identify unsold products."
+                "Product_ID is required to identify "
+                "unsold products."
         }
 
     if "Product_ID" not in products_df.columns:
@@ -2051,15 +2204,21 @@ def trend_analysis(info):
 
         if last_value > first_value:
 
-            direction = "📈 Sales are increasing."
+            direction = (
+                "📈 Sales are increasing."
+            )
 
         elif last_value < first_value:
 
-            direction = "📉 Sales are declining."
+            direction = (
+                "📉 Sales are declining."
+            )
 
         else:
 
-            direction = "➡️ Sales are relatively stable."
+            direction = (
+                "➡️ Sales are relatively stable."
+            )
 
     else:
 
@@ -2080,8 +2239,7 @@ def trend_analysis(info):
 
         "quantity_column": quantity_column,
 
-        "message":
-            direction
+        "message": direction
     }
 
 
@@ -2213,7 +2371,10 @@ def budget_recommendation(info):
         errors="coerce"
     ).fillna(0)
 
-    # Low stock products first
+    # ------------------------------------------------------
+    # LOW STOCK PRODUCTS FIRST
+    # ------------------------------------------------------
+
     inventory = inventory[
         inventory[stock_column] <= 10
     ].copy()
@@ -2238,7 +2399,10 @@ def budget_recommendation(info):
         inventory["Suggested_Order"] > 0
     ]
 
-    # Sort by lower cost first
+    # ------------------------------------------------------
+    # SORT BY LOWER COST FIRST
+    # ------------------------------------------------------
+
     inventory = inventory.sort_values(
         "Estimated_Cost",
         ascending=True
@@ -2388,15 +2552,11 @@ def run_analysis(info):
             info
         )
 
-    # ------------------------------------------------------
-
     if intent == "fast_moving":
 
         return fast_moving_products(
             info
         )
-
-    # ------------------------------------------------------
 
     if intent == "slow_moving":
 
@@ -2414,15 +2574,11 @@ def run_analysis(info):
             info
         )
 
-    # ------------------------------------------------------
-
     if intent == "low_stock":
 
         return low_stock_products(
             info
         )
-
-    # ------------------------------------------------------
 
     if intent == "high_stock":
 
@@ -2747,7 +2903,10 @@ def display_result(result):
 # BUSINESS RECOMMENDATION
 # ==========================================================
 
-def show_recommendation(info, result):
+def show_recommendation(
+    info,
+    result
+):
 
     intent = info["intent"]
 
@@ -2884,11 +3043,22 @@ if (
             )
 
             # ----------------------------------------------
-            # SHOW UNDERSTANDING
+            # BRAND EXTRACTION
+            # ----------------------------------------------
+
+            detected_brand = extract_brand(
+                question
+            )
+
+            info["brand"] = detected_brand
+
+            # ----------------------------------------------
+            # SHOW QUERY UNDERSTANDING
             # ----------------------------------------------
 
             with st.expander(
-                "🔎 Query Understanding"
+                "🔎 Query Understanding",
+                expanded=True
             ):
 
                 col1, col2, col3, col4 = st.columns(4)
@@ -2935,6 +3105,13 @@ if (
                         info["metric"]
                     )
 
+                if info.get("brand"):
+
+                    st.write(
+                        f"**Brand:** "
+                        f"{info['brand']}"
+                    )
+
                 if info["budget"]:
 
                     st.write(
@@ -2959,7 +3136,7 @@ if (
             )
 
             # ----------------------------------------------
-            # RECOMMENDATION
+            # BUSINESS RECOMMENDATION
             # ----------------------------------------------
 
             if result["type"] != "error":
@@ -2988,8 +3165,8 @@ elif (
 ):
 
     st.info(
-        "👆 Type your own business question above "
-        "or select an example question and click Analyse."
+        "👆 Choose Custom Question or Example Question, "
+        "enter/select your question and click Analyse."
     )
 
 
@@ -3000,7 +3177,5 @@ elif (
 st.markdown("---")
 
 st.caption(
-    "🧞 TextileGenie AI • "
-    "AI-Powered Textile Retail Business Assistant • "
-    "Rule-Based AI Version"
+    "🧞 TextileGenie AI — Rule-Based Textile Business Intelligence"
 )

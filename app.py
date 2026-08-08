@@ -78,9 +78,6 @@ if "analysis_question" not in st.session_state:
 
 # ==========================================================
 # CLEAR CALLBACK
-# IMPORTANT:
-# Do NOT modify widget state after widget creation.
-# The callback runs safely before the next Streamlit rerun.
 # ==========================================================
 
 def clear_question():
@@ -218,7 +215,7 @@ with st.sidebar:
         """
         ### Rule-Based AI Modules
 
-        🧠 Query Understanding
+        🧠 Natural Language Query Understanding
 
         📊 Sales Analysis
 
@@ -230,7 +227,15 @@ with st.sidebar:
 
         🏷️ Brand Analysis
 
+        👕 Category Analysis
+
         📈 Trend Analysis
+
+        📢 Promotion Recommendation
+
+        🏷️ Discount Recommendation
+
+        💰 Budget Recommendation
 
         💡 Business Insights
 
@@ -249,7 +254,7 @@ st.subheader(
 
 st.write(
     "Ask TextileGenie about your textile business. "
-    "Choose either a custom question or an example question."
+    "You can type your own question naturally or select an example."
 )
 
 
@@ -269,7 +274,7 @@ input_mode = st.radio(
 
 
 # ==========================================================
-# EXAMPLE QUESTIONS
+# COMPREHENSIVE EXAMPLE QUESTIONS
 # ==========================================================
 
 example_questions = [
@@ -279,106 +284,245 @@ example_questions = [
     # ======================================================
 
     "Which products sold the most?",
-    "Which products sold the most yesterday?",
+    "What products are selling the most?",
+    "Which products are best sellers?",
+    "What are my top selling products?",
+    "Which products have the highest sales?",
     "Which products moved fastest?",
     "Which products moved fastest in the last 7 days?",
     "Which products moved fastest in the last 15 days?",
     "Which products moved fastest in the last 30 days?",
-    "What are my top selling products?",
-    "What are my best selling products?",
-    "Which products have the highest sales?",
-    "Which products have the lowest sales?",
+    "What sold well recently?",
+    "What are customers buying the most?",
+    "Which items are selling well?",
+    "Which products have good sales?",
+    "What products have strong demand?",
     "Which products sold the least?",
-    "Which category sold the most?",
-    "Which category sold the least?",
-    "Which brand sold the most?",
-    "Which brand sold the least?",
-    "What are my total sales?",
+    "Which products have the lowest sales?",
+    "What are my worst selling products?",
+    "How many units did I sell?",
+    "How many products did I sell?",
     "What were my sales yesterday?",
     "What were my sales last week?",
     "What were my sales last month?",
+    "What are my total sales?",
     "Show me my sales.",
-    "Show me my sales for the last 7 days.",
-    "Show me my sales for the last 15 days.",
-    "Show me my sales for the last 30 days.",
-    "How many products did I sell?",
-    "How many units did I sell?",
-    "What is my sales performance?",
+    "Show me today's sales.",
+    "Show me last week's sales.",
+    "Show me last month's sales.",
+    "Give me my sales performance.",
+    "How is my business selling?",
+    "How are my sales doing?",
 
     # ======================================================
-    # INVENTORY
+    # FAST MOVING
+    # ======================================================
+
+    "Which products are fast moving?",
+    "Which products are moving quickly?",
+    "Which items are moving fast?",
+    "Which products sell quickly?",
+    "What products are selling quickly?",
+    "Which products have the highest demand?",
+    "Which products are my best movers?",
+    "What is moving fastest?",
+    "Which shirts are selling fastest?",
+    "Which jeans are selling fastest?",
+    "Which sarees are selling fastest?",
+
+    # ======================================================
+    # SLOW MOVING
+    # ======================================================
+
+    "Which products are slow moving?",
+    "Which products are slow selling?",
+    "Which items are moving slowly?",
+    "Which products are selling slowly?",
+    "Which products are poor sellers?",
+    "Which products are weak sellers?",
+    "Which products have poor sales?",
+    "Which products sold the least?",
+    "Which products are not moving well?",
+    "What products are stuck in inventory?",
+    "Which shirts are slow selling?",
+    "Which jeans are slow selling?",
+    "Which sarees are slow selling?",
+
+    # ======================================================
+    # UNSOLD
     # ======================================================
 
     "Which products were not sold?",
-    "Which products have zero sales?",
     "Which products have no sales?",
+    "Which products have zero sales?",
     "Which products did not sell?",
+    "Which products didn't sell?",
     "Which products are unsold?",
+    "What products have no sales?",
+    "Show me unsold products.",
+    "Are there products that nobody bought?",
+    "Which products have not moved?",
+
+    # ======================================================
+    # LOW STOCK
+    # ======================================================
+
     "Which products are running low in stock?",
     "Which products have low stock?",
-    "Which products have the highest stock?",
-    "Which products have the lowest stock?",
-    "Which products have the most stock?",
-    "Which products are overstocked?",
-    "Which products are slow moving?",
-    "Which products are slow selling?",
-    "Which products are selling slowly?",
+    "Which products are low on stock?",
+    "Which products have low inventory?",
+    "What products are nearly out of stock?",
+    "Which products are almost out of stock?",
+    "Which products are out of stock?",
+    "What items need immediate restocking?",
+    "Which products need restocking?",
+    "Which products need replenishment?",
+    "Which products need immediate replenishment?",
+    "Which products are running out?",
+    "Show me low stock products.",
+    "Show me products with low inventory.",
     "Which shirts are low in stock?",
     "Which jeans are low in stock?",
     "Which sarees are low in stock?",
     "Which pants are low in stock?",
     "Which kurtis are low in stock?",
     "Which dresses are low in stock?",
-    "Which products are almost out of stock?",
-    "Show me my current stock.",
-    "Show me inventory.",
-    "Which products need immediate restocking?",
 
     # ======================================================
-    # PURCHASE
+    # HIGH STOCK
     # ======================================================
 
-    "What products should I reorder?",
-    "Which products should I purchase?",
+    "Which products have the highest stock?",
+    "Which products have the most stock?",
+    "Which products have high stock?",
+    "Which products have high inventory?",
+    "Which items have the largest stock?",
+    "Show me products with high stock.",
+    "What products have maximum inventory?",
+    "Which products are heavily stocked?",
+
+    # ======================================================
+    # OVERSTOCK
+    # ======================================================
+
+    "Which products are overstocked?",
+    "Which products have excess stock?",
+    "Which products have too much stock?",
+    "Which products have excess inventory?",
+    "What products are over stocked?",
+    "Where do I have excess inventory?",
+    "Which items should I reduce stock for?",
+
+    # ======================================================
+    # PURCHASE / ORDER / REORDER
+    # ======================================================
+
+    "What products should I order?",
+    "Which products should I order?",
+    "Which shirt should I order?",
+    "Which shirts should I order?",
+    "Which jeans should I order?",
+    "Which sarees should I order?",
+    "Which product should I order?",
+    "What should I order?",
+    "What do I need to order?",
+    "What do I have to order?",
+    "What products do I need to order?",
+    "Which products do I need to order?",
+    "Which products do I have to order?",
+    "What should I buy?",
+    "What products should I buy?",
     "Which products should I buy?",
-    "Which products need urgent replenishment?",
-    "Which products need restocking?",
-    "What should I order this week?",
-    "What should I purchase this month?",
-    "Which brands should I purchase?",
-    "Which products should I purchase more of?",
-    "Which products should I stop purchasing?",
+    "Which shirt should I buy?",
+    "Which shirts should I buy?",
+    "What should I purchase?",
+    "Which products should I purchase?",
+    "Which products do I need to purchase?",
+    "Which products need to be purchased?",
     "What should I reorder?",
+    "Which products should I reorder?",
+    "Which shirts should I reorder?",
+    "Which products need reordering?",
+    "Which products need replenishment?",
+    "Which products need replenishing?",
+    "Which products need restocking?",
+    "What should I restock?",
+    "What should I replenish?",
+    "Which products should I stock up on?",
     "What should I buy now?",
     "What should I purchase now?",
-    "Which products need replenishment?",
-    "Which products should I stock up on?",
+    "What should I order now?",
+    "What should I order this week?",
+    "What should I purchase this month?",
+    "Which products need urgent replenishment?",
+    "Which products should I purchase more of?",
+    "Which products should I stop purchasing?",
+    "Which products need to be reordered?",
+    "Which products need to be bought again?",
+    "What inventory should I replenish?",
+    "What stock should I replenish?",
+    "Which stock should I reorder?",
+    "Which items should I order next?",
+    "Which products should I order next?",
+    "Which products should I buy for my shop?",
+    "What products should I buy for my shop?",
+
+    # Natural-language purchase questions
+    "Which shirt I have to order?",
+    "Which shirt do I have to order?",
+    "Which shirt do I need to order?",
+    "Which shirt should I order?",
+    "What shirt should I order?",
+    "What shirts do I need to order?",
+    "Which shirts do I need?",
+    "Which shirt needs ordering?",
+    "Which shirts need ordering?",
+    "What do I need to buy?",
+    "What do I have to buy?",
+    "Which products do I need?",
+    "What should I get for the shop?",
+    "Which products should I get?",
+    "Tell me what I should order.",
+    "Tell me what I need to reorder.",
+    "Can you tell me what to buy?",
+    "Can you tell me what I should order?",
+    "Help me decide what to order.",
+    "Help me decide what to buy.",
+    "What stock should I buy?",
+    "Which stock should I order?",
 
     # ======================================================
     # PRICE
     # ======================================================
 
     "Which product is costly?",
-    "Which shirt is costly?",
+    "Which product is expensive?",
     "Which product is most expensive?",
+    "Which product is costliest?",
+    "Which shirt is costly?",
+    "Which shirt is expensive?",
     "Which shirts are most expensive?",
-    "Which product is cheapest?",
-    "Which shirt is cheapest?",
     "Which products have the highest price?",
     "Which products have the lowest price?",
+    "Which product is cheapest?",
+    "Which shirt is cheapest?",
+    "Which products are cheapest?",
+    "What is the cheapest product?",
+    "What is the most expensive product?",
     "Which product has the highest MRP?",
     "Which product has the lowest MRP?",
-    "What is the selling price of the products?",
-    "What is the purchase price of the products?",
+    "What is the selling price?",
+    "What is the purchase price?",
     "Show me product prices.",
     "Show me selling prices.",
     "Show me purchase prices.",
-    "Which product has the highest cost?",
-    "Which product has the lowest cost?",
+    "How much does this product cost?",
+    "How much is this shirt?",
+    "How much does this shirt cost?",
     "What is the price of this product?",
-    "Which shirts are costly?",
-    "Which jeans are costly?",
-    "Which sarees are costly?",
+    "What does this product sell for?",
+    "Which products have the highest cost?",
+    "Which products have the lowest cost?",
 
     # ======================================================
     # BRAND
@@ -387,14 +531,22 @@ example_questions = [
     "Which brand is performing best?",
     "Which brand is performing poorly?",
     "Which brand moved fastest?",
+    "Which brand sells the most?",
     "Which brand sells the most shirts?",
     "Which brand sells the most jeans?",
     "Which brand sells the most sarees?",
     "Which brand has the highest sales?",
     "Which brand has the lowest sales?",
+    "Which brand is most popular?",
+    "Which brand has the best sales?",
+    "Which brand is selling well?",
+    "Which brand is not performing well?",
     "Compare different brands.",
+    "Compare my brands.",
     "Show me brand sales.",
     "Show me brand performance.",
+    "Which brand should I focus on?",
+    "Which brand should I buy more?",
 
     # ======================================================
     # CATEGORY
@@ -403,33 +555,48 @@ example_questions = [
     "Which category is performing best?",
     "Which category sells the most?",
     "Which category sells the least?",
+    "Which category has the highest sales?",
+    "Which category has the lowest sales?",
+    "Compare my categories.",
     "Compare shirt and jeans sales.",
-    "How are my saree sales?",
+    "Compare shirts and sarees.",
+    "Compare jeans and pants.",
     "How are my shirt sales?",
     "How are my jeans sales?",
+    "How are my saree sales?",
     "How are my pant sales?",
     "How are my kurti sales?",
     "How are my dress sales?",
     "Show me category sales.",
-    "Compare my categories.",
+    "Which category is most popular?",
+    "Which category is selling well?",
+    "Which category is weak?",
+    "Which category should I focus on?",
 
     # ======================================================
     # TREND
     # ======================================================
 
     "Show me the sales trend.",
+    "What is my sales trend?",
     "Which products are growing in sales?",
     "Which products are declining?",
     "Which products are improving?",
     "Which products are losing sales?",
-    "Which brand has the best sales trend?",
-    "Which category has the best trend?",
-    "Are sales increasing or decreasing?",
+    "Are sales increasing?",
+    "Are sales decreasing?",
     "Are my sales growing?",
     "Are my sales declining?",
+    "Is my business growing?",
+    "Is my business declining?",
     "Show me sales growth.",
     "Show me sales decline.",
     "What is the current sales trend?",
+    "Which brand has the best sales trend?",
+    "Which category has the best trend?",
+    "What products are trending?",
+    "Which products are becoming popular?",
+    "Which products are losing popularity?",
 
     # ======================================================
     # PROMOTION
@@ -438,10 +605,14 @@ example_questions = [
     "Which products should I promote?",
     "Which products should I advertise?",
     "Which products need promotion?",
+    "Which products need advertising?",
     "Which products should I promote this week?",
     "Which products should I promote today?",
     "Which slow products should I promote?",
     "What products should I advertise?",
+    "What should I promote?",
+    "Which products need marketing?",
+    "What products should I market?",
 
     # ======================================================
     # DISCOUNT
@@ -453,21 +624,42 @@ example_questions = [
     "Which products should I put on sale?",
     "Which slow products should I discount?",
     "What products should I discount this week?",
+    "What products should I put on offer?",
+    "Which products need an offer?",
+    "Which products should have a price reduction?",
 
     # ======================================================
-    # BUSINESS RECOMMENDATIONS
+    # BUSINESS SUMMARY
+    # ======================================================
+
+    "Give me a business summary.",
+    "Give me today's business summary.",
+    "Give me my business overview.",
+    "Give me a business overview.",
+    "Give me a sales summary.",
+    "Give me an overall summary.",
+    "How is my business doing?",
+    "How is my shop doing?",
+    "How is my textile business doing?",
+    "Give me a complete business report.",
+    "Give me a business report.",
+    "What is happening in my business?",
+    "Give me an overall business analysis.",
+    "What should I focus on?",
+    "What products need attention?",
+    "Which products require attention?",
+    "What should I focus on this week?",
+
+    # ======================================================
+    # STOCK STRATEGY
     # ======================================================
 
     "Which products should I keep more stock of?",
     "Which products should I reduce stock of?",
-    "What should I focus on this week?",
-    "Give me a business summary.",
-    "Give me today's business summary.",
-    "Give me a sales summary.",
-    "Give me my business overview.",
-    "What should I focus on?",
-    "What products need attention?",
-    "Which products require attention?",
+    "Which products should I stock more?",
+    "Which products should I stock less?",
+    "What products should I keep more inventory of?",
+    "What products should I reduce inventory of?",
 
     # ======================================================
     # BUDGET
@@ -481,12 +673,17 @@ example_questions = [
     "Which products can I purchase within 50000?",
     "What should I buy within a budget of 50000?",
     "What should I buy within a budget of ₹50000?",
-    "What should I purchase within ₹100000?"
+    "What should I purchase within ₹100000?",
+    "What can I buy with ₹50000?",
+    "What can I purchase with ₹100000?",
+    "How should I spend my purchase budget?",
+    "Help me plan my purchase within ₹50000.",
+    "Help me buy stock within ₹100000."
 ]
 
 
 # ==========================================================
-# CUSTOM QUESTION MODE
+# INPUT UI
 # ==========================================================
 
 if input_mode == "✍️ Custom Question":
@@ -498,20 +695,16 @@ if input_mode == "✍️ Custom Question":
     custom_question = st.text_input(
         "Custom Question",
         placeholder=(
-            "Example: Which shirt is costly in this shop?"
+            "Example: Which shirt should I order?"
         ),
         label_visibility="collapsed",
         key="custom_question"
     )
 
     st.info(
-        "✍️ You are using Custom Question mode."
+        "✍️ Custom Question mode: "
+        "Ask your question naturally."
     )
-
-
-# ==========================================================
-# EXAMPLE QUESTION MODE
-# ==========================================================
 
 else:
 
@@ -528,7 +721,7 @@ else:
     )
 
     st.info(
-        "📋 You are using Example Question mode."
+        "📋 Example Question mode."
     )
 
 
@@ -539,10 +732,6 @@ else:
 col1, col2 = st.columns(2)
 
 
-# ==========================================================
-# ANALYSE BUTTON
-# ==========================================================
-
 with col1:
 
     analyse_button = st.button(
@@ -551,10 +740,6 @@ with col1:
         use_container_width=True
     )
 
-
-# ==========================================================
-# CLEAR BUTTON
-# ==========================================================
 
 with col2:
 
@@ -579,7 +764,9 @@ if analyse_button:
 
     if input_mode == "✍️ Custom Question":
 
-        custom_text = st.session_state.custom_question.strip()
+        custom_text = (
+            st.session_state.custom_question.strip()
+        )
 
         if custom_text:
 
@@ -591,14 +778,15 @@ if analyse_button:
                 "⚠️ Please type your business question."
             )
 
-
     # ------------------------------------------------------
     # EXAMPLE QUESTION
     # ------------------------------------------------------
 
-    elif input_mode == "📋 Example Question":
+    else:
 
-        selected_text = st.session_state.selected_example
+        selected_text = (
+            st.session_state.selected_example
+        )
 
         if (
             selected_text
@@ -613,7 +801,6 @@ if analyse_button:
             st.warning(
                 "⚠️ Please select an example question."
             )
-
 
     # ------------------------------------------------------
     # SAVE QUESTION
@@ -653,426 +840,974 @@ if question:
 
 
 # ==========================================================
-# QUERY UNDERSTANDING
+# TEXT NORMALIZATION
 # ==========================================================
 
-def understand_question(question):
+def normalize_question(question):
 
-    q = question.lower().strip()
+    q = str(question).lower().strip()
+
+    # Common apostrophe variations
+    q = q.replace("’", "'")
+    q = q.replace("`", "'")
+
+    # Common spelling variations
+    replacements = {
+
+        "re-order": "reorder",
+        "re ordering": "reordering",
+        "re order": "reorder",
+
+        "restocking": "restock",
+        "restocking": "restock",
+
+        "replenishing": "replenish",
+        "replenishment": "replenish",
+
+        "purchasing": "purchase",
+
+        "buying": "buy",
+
+        "advertisement": "advertise",
+        "advertising": "advertise",
+
+        "promotions": "promotion",
+
+        "discounts": "discount",
+
+        "inventories": "inventory",
+
+        "t shirts": "t-shirt",
+        "tee shirts": "t-shirt",
+        "tee shirt": "t-shirt",
+        "tees": "t-shirt"
+    }
+
+    for old, new in replacements.items():
+
+        q = q.replace(old, new)
+
+    # Remove extra spaces
+    q = re.sub(
+        r"\s+",
+        " ",
+        q
+    )
+
+    return q
 
 
-    # ======================================================
-    # PERIOD
-    # ======================================================
+# ==========================================================
+# WORD / PHRASE HELPER
+# ==========================================================
 
+def contains_any(q, phrases):
+
+    for phrase in phrases:
+
+        phrase = phrase.lower().strip()
+
+        if " " in phrase or "-" in phrase:
+
+            if phrase in q:
+                return True
+
+        else:
+
+            if re.search(
+                rf"\b{re.escape(phrase)}\b",
+                q
+            ):
+                return True
+
+    return False
+
+
+# ==========================================================
+# PERIOD EXTRACTION
+# ==========================================================
+
+def extract_period(q):
+
+    # Default
     period_days = 30
 
+    # Explicit days
     match = re.search(
-        r"last\s+(\d+)\s+days?",
+        r"(?:last|past|previous|for)\s+(\d+)\s+days?",
         q
     )
 
     if match:
 
-        period_days = int(
+        return int(
             match.group(1)
         )
 
-    elif "yesterday" in q:
+    # Weeks
+    match = re.search(
+        r"(?:last|past|previous|for)\s+(\d+)\s+weeks?",
+        q
+    )
 
-        period_days = 1
+    if match:
 
-    elif "today" in q:
+        return int(
+            match.group(1)
+        ) * 7
 
-        period_days = 1
+    # Months
+    match = re.search(
+        r"(?:last|past|previous|for)\s+(\d+)\s+months?",
+        q
+    )
 
-    elif "last week" in q:
+    if match:
 
-        period_days = 7
+        return int(
+            match.group(1)
+        ) * 30
 
-    elif "last month" in q:
+    # Natural periods
 
-        period_days = 30
+    if contains_any(
+        q,
+        [
+            "yesterday",
+            "yday"
+        ]
+    ):
 
-    elif "this week" in q:
+        return 1
 
-        period_days = 7
+    if contains_any(
+        q,
+        [
+            "today",
+            "today's"
+        ]
+    ):
 
-    elif "this month" in q:
+        return 1
 
-        period_days = 30
+    if contains_any(
+        q,
+        [
+            "last week",
+            "past week",
+            "previous week",
+            "this week",
+            "weekly"
+        ]
+    ):
+
+        return 7
+
+    if contains_any(
+        q,
+        [
+            "fortnight",
+            "two weeks",
+            "last two weeks",
+            "past two weeks"
+        ]
+    ):
+
+        return 14
+
+    if contains_any(
+        q,
+        [
+            "last month",
+            "past month",
+            "previous month",
+            "this month",
+            "monthly"
+        ]
+    ):
+
+        return 30
+
+    if contains_any(
+        q,
+        [
+            "last quarter",
+            "past quarter",
+            "this quarter",
+            "quarter"
+        ]
+    ):
+
+        return 90
+
+    if contains_any(
+        q,
+        [
+            "last 6 months",
+            "past 6 months"
+        ]
+    ):
+
+        return 180
+
+    if contains_any(
+        q,
+        [
+            "last year",
+            "past year",
+            "previous year",
+            "this year",
+            "yearly"
+        ]
+    ):
+
+        return 365
+
+    if contains_any(
+        q,
+        [
+            "ytd",
+            "year to date"
+        ]
+    ):
+
+        return 365
+
+    return period_days
 
 
-    # ======================================================
-    # CATEGORY
-    # ======================================================
+# ==========================================================
+# CATEGORY EXTRACTION
+# ==========================================================
 
-    category = None
+def extract_category(question):
+
+    q = normalize_question(question)
 
     categories = {
 
-        "t-shirts": "T-Shirt",
+        # T-shirt
         "t-shirt": "T-Shirt",
+        "t-shirts": "T-Shirt",
+        "tee": "T-Shirt",
+        "tees": "T-Shirt",
 
+        # Shirt
         "shirts": "Shirt",
         "shirt": "Shirt",
 
+        # Jeans
         "jeans": "Jeans",
         "jean": "Jeans",
 
+        # Pant
         "pants": "Pant",
         "pant": "Pant",
+        "trousers": "Pant",
+        "trouser": "Pant",
 
+        # Kurti
         "kurtis": "Kurti",
         "kurti": "Kurti",
 
+        # Saree
         "sarees": "Saree",
         "saree": "Saree",
 
+        # Dress
         "dresses": "Dress",
         "dress": "Dress",
 
+        # Top
         "tops": "Top",
         "top": "Top",
 
+        # Jacket
         "jackets": "Jacket",
-        "jacket": "Jacket"
+        "jacket": "Jacket",
+
+        # Skirt
+        "skirts": "Skirt",
+        "skirt": "Skirt",
+
+        # Kids
+        "kidswear": "Kidswear",
+        "kids wear": "Kidswear",
+        "children wear": "Kidswear",
+        "children's wear": "Kidswear",
+
+        # General
+        "clothes": None,
+        "clothing": None,
+        "apparel": None,
+        "garments": None,
+        "garment": None,
+        "products": None,
+        "product": None,
+        "items": None,
+        "item": None
     }
 
-    # Longer keywords first
-    # to avoid "shirt" matching inside "t-shirt"
-
-    for keyword in sorted(
+    # Longer phrases first
+    keywords = sorted(
         categories.keys(),
         key=len,
         reverse=True
-    ):
+    )
 
-        if keyword in q:
+    for keyword in keywords:
 
-            category = categories[keyword]
+        if " " in keyword or "-" in keyword:
 
-            break
+            if keyword in q:
+
+                return categories[keyword]
+
+        else:
+
+            if re.search(
+                rf"\b{re.escape(keyword)}\b",
+                q
+            ):
+
+                return categories[keyword]
+
+    return None
 
 
-    # ======================================================
-    # INTENT
-    # ======================================================
+# ==========================================================
+# BRAND EXTRACTION
+# ==========================================================
 
-    intent = "sales_summary"
-
-
-    # ------------------------------------------------------
-    # UNSOLD
-    # ------------------------------------------------------
+def extract_brand(question):
 
     if (
-        "not sold" in q
-        or "unsold" in q
-        or "zero sales" in q
-        or "no sales" in q
-        or "didn't sell" in q
-        or "did not sell" in q
-        or "no sale" in q
+        not data_loaded
+        or
+        "Brand" not in products_df.columns
     ):
 
-        intent = "unsold_products"
+        return None
+
+    q = normalize_question(question)
+
+    brands = (
+        products_df["Brand"]
+        .dropna()
+        .astype(str)
+        .unique()
+        .tolist()
+    )
+
+    # Longest brands first
+    brands = sorted(
+        brands,
+        key=len,
+        reverse=True
+    )
+
+    for brand in brands:
+
+        brand_clean = brand.strip().lower()
+
+        if brand_clean and brand_clean in q:
+
+            return brand
+
+    return None
 
 
-    # ------------------------------------------------------
-    # FAST MOVING
-    # ------------------------------------------------------
+# ==========================================================
+# INTENT DETECTION
+# ==========================================================
 
-    elif (
-        "fastest" in q
-        or "fast moving" in q
-        or "fast-moving" in q
-        or "moved fast" in q
-        or "best selling" in q
-        or "best-selling" in q
-        or "top selling" in q
-        or "top-selling" in q
-        or "most sold" in q
-        or "selling fastest" in q
-        or "sold the most" in q
-        or "sell the most" in q
-        or "highest sales" in q
-    ):
-
-        intent = "fast_moving"
-
-
-    # ------------------------------------------------------
-    # SLOW MOVING
-    # ------------------------------------------------------
-
-    elif (
-        "slow moving" in q
-        or "slow-moving" in q
-        or "slow selling" in q
-        or "slow-selling" in q
-        or "poor selling" in q
-        or "selling slowly" in q
-        or "sold the least" in q
-        or "lowest sales" in q
-    ):
-
-        intent = "slow_moving"
-
+def detect_intent(q):
 
     # ------------------------------------------------------
-    # LOW STOCK
+    # 1. BUDGET
+    # Highest priority when money limit is explicitly given
     # ------------------------------------------------------
 
-    elif (
-        "low stock" in q
-        or "running low" in q
-        or "low inventory" in q
-        or "stock is low" in q
-        or "almost out of stock" in q
-        or "urgent stock" in q
-        or "out of stock" in q
-        or "need restocking" in q
-        or "need replenishment" in q
-    ):
+    has_budget_word = contains_any(
+        q,
+        [
+            "budget",
+            "within my budget",
+            "within budget",
+            "spend",
+            "spending limit",
+            "purchase limit"
+        ]
+    )
 
-        intent = "low_stock"
-
-
-    # ------------------------------------------------------
-    # HIGH STOCK
-    # ------------------------------------------------------
-
-    elif (
-        "highest stock" in q
-        or "high stock" in q
-        or "most stock" in q
-        or "maximum stock" in q
-        or "large stock" in q
-        or "highest inventory" in q
-    ):
-
-        intent = "high_stock"
-
-
-    # ------------------------------------------------------
-    # OVERSTOCK
-    # ------------------------------------------------------
-
-    elif (
-        "overstock" in q
-        or "over stocked" in q
-        or "too much stock" in q
-        or "excess stock" in q
-        or "excess inventory" in q
-    ):
-
-        intent = "overstocked"
-
-
-    # ------------------------------------------------------
-    # PURCHASE
-    # ------------------------------------------------------
-
-    elif (
-        "reorder" in q
-        or "purchase" in q
-        or "buy" in q
-        or "restock" in q
-        or "replenish" in q
-        or "what should i order" in q
-        or "what should i purchase" in q
-        or "what should i buy" in q
-        or "what should i reorder" in q
-        or "stock up" in q
-    ):
-
-        intent = "purchase_recommendation"
-
-
-    # ------------------------------------------------------
-    # PRICE
-    # ------------------------------------------------------
-
-    elif (
-        "costly" in q
-        or "costliest" in q
-        or "expensive" in q
-        or "most expensive" in q
-        or "highest price" in q
-        or "highest cost" in q
-        or "maximum price" in q
-        or "cheapest" in q
-        or "lowest price" in q
-        or "least expensive" in q
-        or "lowest cost" in q
-        or "minimum price" in q
-        or "price of" in q
-        or "cost of" in q
-        or "selling price" in q
-        or "purchase price" in q
-        or "mrp" in q
-        or "price" in q
-        or "cost" in q
-    ):
-
-        intent = "price_analysis"
-
-
-    # ------------------------------------------------------
-    # BRAND
-    # ------------------------------------------------------
-
-    elif (
-        "brand" in q
-        or "brands" in q
-    ):
-
-        intent = "brand_analysis"
-
-
-    # ------------------------------------------------------
-    # CATEGORY
-    # ------------------------------------------------------
-
-    elif (
-        "category" in q
-        or "categories" in q
-    ):
-
-        intent = "category_analysis"
-
-
-    # ------------------------------------------------------
-    # TREND
-    # ------------------------------------------------------
-
-    elif (
-        "trend" in q
-        or "trending" in q
-        or "growing" in q
-        or "growth" in q
-        or "declining" in q
-        or "decline" in q
-        or "increasing" in q
-        or "decreasing" in q
-        or "improving" in q
-        or "losing sales" in q
-    ):
-
-        intent = "trend_analysis"
-
-
-    # ------------------------------------------------------
-    # PROMOTION
-    # ------------------------------------------------------
-
-    elif (
-        "promote" in q
-        or "promotion" in q
-        or "advertise" in q
-        or "advertising" in q
-    ):
-
-        intent = "promotion_recommendation"
-
-
-    # ------------------------------------------------------
-    # DISCOUNT
-    # ------------------------------------------------------
-
-    elif (
-        "discount" in q
-        or "discounts" in q
-        or "offer" in q
-        or "offers" in q
-        or "sale offer" in q
-    ):
-
-        intent = "discount_recommendation"
-
-
-    # ------------------------------------------------------
-    # BUDGET
-    # ------------------------------------------------------
-
-    elif (
-        "budget" in q
-        or "₹" in q
-        or "rs " in q
-        or "rs." in q
-        or "rupees" in q
-    ):
-
-        intent = "budget_recommendation"
-
-
-    # ------------------------------------------------------
-    # SUMMARY
-    # ------------------------------------------------------
-
-    elif (
-        "summary" in q
-        or "overview" in q
-        or "performance" in q
-        or "business report" in q
-        or "business overview" in q
-    ):
-
-        intent = "business_summary"
-
-
-    # ======================================================
-    # METRIC
-    # ======================================================
+    has_currency = bool(
+        re.search(
+            r"(₹|rs\.?|rupees?)\s*[\d,]+",
+            q
+        )
+    )
 
     if (
-        "revenue" in q
-        or "sales value" in q
-        or "sales amount" in q
-        or "turnover" in q
+        has_budget_word
+        or
+        (
+            has_currency
+            and
+            contains_any(
+                q,
+                [
+                    "buy",
+                    "purchase",
+                    "order",
+                    "stock",
+                    "replenish"
+                ]
+            )
+        )
     ):
 
-        metric = "revenue"
+        return "budget_recommendation"
 
-    elif "profit" in q:
 
-        metric = "profit"
+    # ------------------------------------------------------
+    # 2. DISCOUNT
+    # ------------------------------------------------------
 
-    elif (
-        "price" in q
-        or "cost" in q
-        or "mrp" in q
+    if contains_any(
+        q,
+        [
+            "discount",
+            "discounted",
+            "discounting",
+            "price reduction",
+            "reduce price",
+            "put on sale",
+            "offer discount",
+            "special offer"
+        ]
     ):
 
-        metric = "price"
-
-    else:
-
-        metric = "units"
+        return "discount_recommendation"
 
 
-    # ======================================================
-    # BUDGET EXTRACTION
-    # ======================================================
+    # ------------------------------------------------------
+    # 3. PROMOTION
+    # ------------------------------------------------------
 
-    budget = None
+    if contains_any(
+        q,
+        [
+            "promote",
+            "promotion",
+            "advertise",
+            "advertisement",
+            "marketing",
+            "market this",
+            "run promotion",
+            "run an ad"
+        ]
+    ):
 
-    budget_patterns = [
+        return "promotion_recommendation"
 
-        r"₹\s*([\d,]+)",
 
-        r"rs\.?\s*([\d,]+)",
+    # ------------------------------------------------------
+    # 4. PRICE
+    # ------------------------------------------------------
 
-        r"rupees\s*([\d,]+)",
+    # Explicit price questions
+    if contains_any(
+        q,
+        [
+            "selling price",
+            "purchase price",
+            "mrp",
+            "price of",
+            "cost of",
+            "how much",
+            "what is the price",
+            "what does it cost",
+            "what does this cost",
+            "price",
+            "cost",
+            "costly",
+            "costliest",
+            "expensive",
+            "most expensive",
+            "cheapest",
+            "least expensive",
+            "highest price",
+            "lowest price",
+            "highest cost",
+            "lowest cost",
+            "maximum price",
+            "minimum price"
+        ]
+    ):
 
-        r"budget\s*(?:of|is)?\s*₹?\s*([\d,]+)",
+        return "price_analysis"
 
-        r"([\d,]+)\s*rupees"
 
+    # ------------------------------------------------------
+    # 5. PURCHASE / ORDER
+    #
+    # IMPORTANT:
+    # This comes BEFORE general sales.
+    #
+    # This fixes:
+    #
+    # "which shirt I have to order?"
+    # "which shirt should I buy?"
+    # "what do I need to reorder?"
+    # ------------------------------------------------------
+
+    purchase_action = contains_any(
+        q,
+        [
+            "order",
+            "ordering",
+            "reorder",
+            "reordering",
+            "purchase",
+            "purchasing",
+            "buy",
+            "buying",
+            "restock",
+            "restocking",
+            "replenish",
+            "replenishing",
+            "stock up",
+            "stock-up",
+            "top up inventory",
+            "refill stock"
+        ]
+    )
+
+    purchase_question = contains_any(
+        q,
+        [
+            "what should i order",
+            "what do i order",
+            "what do i need to order",
+            "what do i have to order",
+            "what should i buy",
+            "what do i need to buy",
+            "what do i have to buy",
+            "what should i purchase",
+            "what do i need to purchase",
+            "which product should i order",
+            "which products should i order",
+            "which product do i need to order",
+            "which products do i need to order",
+            "which shirt should i order",
+            "which shirts should i order",
+            "which shirt do i need to order",
+            "which shirts do i need to order",
+            "which product should i buy",
+            "which products should i buy",
+            "which shirt should i buy",
+            "which shirts should i buy",
+            "which products need ordering",
+            "which products need reordering",
+            "which products need restocking",
+            "which products need replenishment",
+            "which products should i reorder",
+            "which products should i restock",
+            "which products should i replenish",
+            "what should i restock",
+            "what should i replenish",
+            "what should i reorder",
+            "what should i purchase",
+            "what should i order now",
+            "what should i buy now",
+            "what should i purchase now",
+            "what should i order next",
+            "what should i buy next",
+            "which items should i order",
+            "which items should i buy"
+        ]
+    )
+
+    if (
+        purchase_action
+        or
+        purchase_question
+    ):
+
+        return "purchase_recommendation"
+
+
+    # ------------------------------------------------------
+    # 6. UNSOLD
+    # ------------------------------------------------------
+
+    if contains_any(
+        q,
+        [
+            "not sold",
+            "did not sell",
+            "didn't sell",
+            "didnt sell",
+            "no sale",
+            "no sales",
+            "zero sales",
+            "unsold",
+            "never sold",
+            "have not sold",
+            "haven't sold",
+            "has not sold",
+            "hasn't sold"
+        ]
+    ):
+
+        return "unsold_products"
+
+
+    # ------------------------------------------------------
+    # 7. OVERSTOCK
+    # ------------------------------------------------------
+
+    if contains_any(
+        q,
+        [
+            "overstock",
+            "over stocked",
+            "overstocked",
+            "too much stock",
+            "too much inventory",
+            "excess stock",
+            "excess inventory",
+            "surplus stock",
+            "surplus inventory",
+            "heavily stocked"
+        ]
+    ):
+
+        return "overstocked"
+
+
+    # ------------------------------------------------------
+    # 8. LOW STOCK
+    # ------------------------------------------------------
+
+    if contains_any(
+        q,
+        [
+            "low stock",
+            "low on stock",
+            "running low",
+            "low inventory",
+            "stock is low",
+            "inventory is low",
+            "almost out of stock",
+            "nearly out of stock",
+            "nearly finished",
+            "running out",
+            "out of stock",
+            "stock shortage",
+            "inventory shortage"
+        ]
+    ):
+
+        return "low_stock"
+
+
+    # ------------------------------------------------------
+    # 9. HIGH STOCK
+    # ------------------------------------------------------
+
+    if contains_any(
+        q,
+        [
+            "highest stock",
+            "highest inventory",
+            "most stock",
+            "maximum stock",
+            "maximum inventory",
+            "high stock",
+            "high inventory",
+            "largest stock",
+            "largest inventory"
+        ]
+    ):
+
+        return "high_stock"
+
+
+    # ------------------------------------------------------
+    # 10. FAST MOVING
+    # ------------------------------------------------------
+
+    if contains_any(
+        q,
+        [
+            "fastest",
+            "fast moving",
+            "fast-moving",
+            "moving fast",
+            "moved fast",
+            "moves fast",
+            "selling fast",
+            "selling quickly",
+            "sell quickly",
+            "selling fastest",
+            "best selling",
+            "best-selling",
+            "top selling",
+            "top-selling",
+            "most sold",
+            "sold the most",
+            "sell the most",
+            "highest sales",
+            "strongest sales",
+            "strong demand",
+            "high demand",
+            "best movers",
+            "moving quickly"
+        ]
+    ):
+
+        return "fast_moving"
+
+
+    # ------------------------------------------------------
+    # 11. SLOW MOVING
+    # ------------------------------------------------------
+
+    if contains_any(
+        q,
+        [
+            "slow moving",
+            "slow-moving",
+            "moving slowly",
+            "moves slowly",
+            "slow selling",
+            "slow-selling",
+            "selling slowly",
+            "sell slowly",
+            "poor selling",
+            "poor sellers",
+            "weak sellers",
+            "weak sales",
+            "lowest sales",
+            "sold the least",
+            "least sold",
+            "not moving well",
+            "stuck in inventory",
+            "poor performers",
+            "underperforming products"
+        ]
+    ):
+
+        return "slow_moving"
+
+
+    # ------------------------------------------------------
+    # 12. TREND
+    # ------------------------------------------------------
+
+    if contains_any(
+        q,
+        [
+            "trend",
+            "trending",
+            "growing",
+            "growth",
+            "declining",
+            "decline",
+            "increasing",
+            "increase",
+            "decreasing",
+            "decrease",
+            "improving",
+            "improvement",
+            "losing sales",
+            "falling sales",
+            "rising sales",
+            "sales growth",
+            "sales decline",
+            "sales direction",
+            "becoming popular",
+            "losing popularity"
+        ]
+    ):
+
+        return "trend_analysis"
+
+
+    # ------------------------------------------------------
+    # 13. BRAND
+    # ------------------------------------------------------
+
+    if contains_any(
+        q,
+        [
+            "brand",
+            "brands",
+            "which label",
+            "which labels"
+        ]
+    ):
+
+        return "brand_analysis"
+
+
+    # ------------------------------------------------------
+    # 14. CATEGORY
+    # ------------------------------------------------------
+
+    if contains_any(
+        q,
+        [
+            "category",
+            "categories",
+            "compare categories",
+            "compare shirt and jeans",
+            "compare shirts and sarees",
+            "compare jeans and pants"
+        ]
+    ):
+
+        return "category_analysis"
+
+
+    # ------------------------------------------------------
+    # 15. BUSINESS SUMMARY
+    # ------------------------------------------------------
+
+    if contains_any(
+        q,
+        [
+            "business summary",
+            "business overview",
+            "business report",
+            "overall summary",
+            "overall report",
+            "overall business",
+            "business performance",
+            "how is my business",
+            "how is my shop",
+            "how is my textile business",
+            "what is happening in my business",
+            "what should i focus on",
+            "products need attention",
+            "products require attention"
+        ]
+    ):
+
+        return "business_summary"
+
+
+    # ------------------------------------------------------
+    # 16. GENERAL SALES
+    # ------------------------------------------------------
+
+    if contains_any(
+        q,
+        [
+            "sales",
+            "sale",
+            "sold",
+            "selling",
+            "units sold",
+            "how many sold",
+            "how much sold",
+            "sales performance",
+            "sales amount",
+            "sales value",
+            "revenue",
+            "turnover"
+        ]
+    ):
+
+        return "sales_summary"
+
+
+    # ------------------------------------------------------
+    # DEFAULT
+    # ------------------------------------------------------
+
+    return "sales_summary"
+
+
+# ==========================================================
+# METRIC EXTRACTION
+# ==========================================================
+
+def extract_metric(q):
+
+    # Revenue / money
+    if contains_any(
+        q,
+        [
+            "revenue",
+            "sales value",
+            "sales amount",
+            "turnover",
+            "money",
+            "earnings"
+        ]
+    ):
+
+        return "revenue"
+
+    # Profit
+    if contains_any(
+        q,
+        [
+            "profit",
+            "profits",
+            "margin",
+            "profit margin"
+        ]
+    ):
+
+        return "profit"
+
+    # Price
+    if contains_any(
+        q,
+        [
+            "price",
+            "cost",
+            "mrp"
+        ]
+    ):
+
+        return "price"
+
+    # Default
+    return "units"
+
+
+# ==========================================================
+# BUDGET EXTRACTION
+# ==========================================================
+
+def extract_budget(q):
+
+    patterns = [
+
+        # ₹50,000
+        r"₹\s*([\d,]+(?:\.\d+)?)",
+
+        # Rs 50,000
+        r"\brs\.?\s*([\d,]+(?:\.\d+)?)",
+
+        # 50,000 rupees
+        r"([\d,]+(?:\.\d+)?)\s*rupees?",
+
+        # budget 50000
+        r"budget\s*(?:of|is|around|up to|upto)?\s*₹?\s*([\d,]+(?:\.\d+)?)",
+
+        # within 50000
+        r"within\s+(?:a\s+)?budget\s+(?:of\s+)?₹?\s*([\d,]+(?:\.\d+)?)",
+
+        # spend 50000
+        r"spend\s+₹?\s*([\d,]+(?:\.\d+)?)"
     ]
 
-    for pattern in budget_patterns:
+    for pattern in patterns:
 
         match = re.search(
             pattern,
@@ -1081,19 +1816,115 @@ def understand_question(question):
 
         if match:
 
-            budget = float(
+            try:
+
+                return float(
+                    match.group(1).replace(
+                        ",",
+                        ""
+                    )
+                )
+
+            except Exception:
+
+                return None
+
+    # Currency symbol attached to a number
+    match = re.search(
+        r"₹?\s*([\d,]+)\s*(?:budget|rupees)",
+        q
+    )
+
+    if match:
+
+        try:
+
+            return float(
                 match.group(1).replace(
                     ",",
                     ""
                 )
             )
 
-            break
+        except Exception:
+
+            pass
+
+    return None
 
 
-    # ======================================================
-    # RETURN QUERY UNDERSTANDING
-    # ======================================================
+# ==========================================================
+# QUERY UNDERSTANDING
+# ==========================================================
+
+def understand_question(question):
+
+    # ------------------------------------------------------
+    # Normalize
+    # ------------------------------------------------------
+
+    q = normalize_question(
+        question
+    )
+
+
+    # ------------------------------------------------------
+    # PERIOD
+    # ------------------------------------------------------
+
+    period_days = extract_period(
+        q
+    )
+
+
+    # ------------------------------------------------------
+    # CATEGORY
+    # ------------------------------------------------------
+
+    category = extract_category(
+        q
+    )
+
+
+    # ------------------------------------------------------
+    # INTENT
+    # ------------------------------------------------------
+
+    intent = detect_intent(
+        q
+    )
+
+
+    # ------------------------------------------------------
+    # METRIC
+    # ------------------------------------------------------
+
+    metric = extract_metric(
+        q
+    )
+
+
+    # ------------------------------------------------------
+    # BUDGET
+    # ------------------------------------------------------
+
+    budget = extract_budget(
+        q
+    )
+
+
+    # ------------------------------------------------------
+    # BRAND
+    # ------------------------------------------------------
+
+    brand = extract_brand(
+        q
+    )
+
+
+    # ------------------------------------------------------
+    # RETURN
+    # ------------------------------------------------------
 
     return {
 
@@ -1109,7 +1940,9 @@ def understand_question(question):
 
         "metric": metric,
 
-        "budget": budget
+        "budget": budget,
+
+        "brand": brand
     }
 
 
@@ -1131,8 +1964,11 @@ def find_quantity_column(df):
 
         "Qty",
 
-        "Sales_Quantity"
+        "Sales_Quantity",
 
+        "Sales Quantity",
+
+        "Units Sold"
     ]
 
     for column in possible_columns:
@@ -1160,8 +1996,11 @@ def find_date_column(df):
 
         "Sales_Date",
 
-        "Transaction_Date"
+        "Transaction_Date",
 
+        "Sale Date",
+
+        "Transaction Date"
     ]
 
     for column in possible_columns:
@@ -1187,8 +2026,9 @@ def find_product_column(df):
 
         "ProductName",
 
-        "Product_Name "
+        "Product_Name ",
 
+        "Product Name"
     ]
 
     for column in possible_columns:
@@ -1221,7 +2061,6 @@ def find_price_column(df):
         "Price",
 
         "price"
-
     ]
 
     for column in possible_columns:
@@ -1249,8 +2088,9 @@ def find_stock_column(df):
 
         "Quantity",
 
-        "Available_Stock"
+        "Available_Stock",
 
+        "Available Stock"
     ]
 
     for column in possible_columns:
@@ -1274,6 +2114,25 @@ def find_stock_column(df):
 
 
 # ==========================================================
+# GENERAL DATA CLEANING HELPERS
+# ==========================================================
+
+def clean_numeric_column(
+    df,
+    column
+):
+
+    if column in df.columns:
+
+        df[column] = pd.to_numeric(
+            df[column],
+            errors="coerce"
+        ).fillna(0)
+
+    return df
+
+
+# ==========================================================
 # PREPARE SALES DATA
 # ==========================================================
 
@@ -1281,7 +2140,9 @@ def prepare_sales_data():
 
     df = sales_df.copy()
 
-    date_column = find_date_column(df)
+    date_column = find_date_column(
+        df
+    )
 
     if date_column:
 
@@ -1290,7 +2151,9 @@ def prepare_sales_data():
             errors="coerce"
         )
 
-    quantity_column = find_quantity_column(df)
+    quantity_column = find_quantity_column(
+        df
+    )
 
     if quantity_column:
 
@@ -1310,7 +2173,13 @@ def filter_sales_data(info):
 
     df = prepare_sales_data()
 
-    date_column = find_date_column(df)
+    date_column = find_date_column(
+        df
+    )
+
+    # ------------------------------------------------------
+    # DATE FILTER
+    # ------------------------------------------------------
 
     if date_column:
 
@@ -1324,10 +2193,16 @@ def filter_sales_data(info):
                 date_column
             ].max()
 
+            period_days = max(
+                int(info.get("period_days", 30)),
+                1
+            )
+
             start_date = (
                 latest_date
-                - pd.Timedelta(
-                    days=info["period_days"] - 1
+                -
+                pd.Timedelta(
+                    days=period_days - 1
                 )
             )
 
@@ -1339,18 +2214,46 @@ def filter_sales_data(info):
     # CATEGORY FILTER
     # ------------------------------------------------------
 
-    category = info["category"]
+    category = info.get(
+        "category"
+    )
 
     if (
         category
-        and "Category" in df.columns
+        and
+        "Category" in df.columns
     ):
 
         df = df[
             df["Category"]
             .astype(str)
+            .str.strip()
             .str.lower()
-            == category.lower()
+            ==
+            category.lower()
+        ]
+
+    # ------------------------------------------------------
+    # BRAND FILTER
+    # ------------------------------------------------------
+
+    brand = info.get(
+        "brand"
+    )
+
+    if (
+        brand
+        and
+        "Brand" in df.columns
+    ):
+
+        df = df[
+            df["Brand"]
+            .astype(str)
+            .str.strip()
+            .str.lower()
+            ==
+            brand.lower()
         ]
 
     return df
@@ -1362,9 +2265,12 @@ def filter_sales_data(info):
 
 def merge_product_information(df):
 
+    df = df.copy()
+
     if (
         "Product_ID" in df.columns
-        and "Product_ID" in products_df.columns
+        and
+        "Product_ID" in products_df.columns
     ):
 
         product_columns = [
@@ -1383,24 +2289,30 @@ def merge_product_information(df):
             if column in products_df.columns
         ]
 
-        product_data = products_df[
-            product_columns
-        ].drop_duplicates(
-            subset=["Product_ID"]
+        product_data = (
+            products_df[
+                product_columns
+            ]
+            .drop_duplicates(
+                subset=["Product_ID"]
+            )
         )
 
         df = df.merge(
             product_data,
             on="Product_ID",
             how="left",
-            suffixes=("", "_product")
+            suffixes=(
+                "",
+                "_product"
+            )
         )
 
     return df
 
 
 # ==========================================================
-# APPLY CATEGORY TO PRODUCTS
+# APPLY CATEGORY FILTER
 # ==========================================================
 
 def filter_products_by_category(
@@ -1408,48 +2320,24 @@ def filter_products_by_category(
     category
 ):
 
+    df = df.copy()
+
     if (
         category
-        and "Category" in df.columns
+        and
+        "Category" in df.columns
     ):
 
         df = df[
             df["Category"]
             .astype(str)
+            .str.strip()
             .str.lower()
-            == category.lower()
+            ==
+            category.lower()
         ]
 
     return df
-
-
-# ==========================================================
-# GET BRAND
-# ==========================================================
-
-def extract_brand(question):
-
-    if "Brand" not in products_df.columns:
-
-        return None
-
-    brands = (
-        products_df["Brand"]
-        .dropna()
-        .astype(str)
-        .unique()
-        .tolist()
-    )
-
-    question_lower = question.lower()
-
-    for brand in brands:
-
-        if brand.lower() in question_lower:
-
-            return brand
-
-    return None
 
 
 # ==========================================================
@@ -1461,16 +2349,21 @@ def filter_by_brand(
     brand
 ):
 
+    df = df.copy()
+
     if (
         brand
-        and "Brand" in df.columns
+        and
+        "Brand" in df.columns
     ):
 
         df = df[
             df["Brand"]
             .astype(str)
+            .str.strip()
             .str.lower()
-            == brand.lower()
+            ==
+            brand.lower()
         ]
 
     return df
@@ -1482,11 +2375,17 @@ def filter_by_brand(
 
 def sales_summary(info):
 
-    df = filter_sales_data(info)
+    df = filter_sales_data(
+        info
+    )
 
-    quantity_column = find_quantity_column(df)
+    quantity_column = find_quantity_column(
+        df
+    )
 
-    product_column = find_product_column(df)
+    product_column = find_product_column(
+        df
+    )
 
     if quantity_column is None:
 
@@ -1504,6 +2403,19 @@ def sales_summary(info):
                 "Product column was not found in sales data."
         }
 
+    if df.empty:
+
+        return {
+            "type": "table",
+            "title":
+                "📊 Sales Summary",
+            "data":
+                pd.DataFrame(),
+            "message":
+                "No sales records were found "
+                "for the selected period."
+        }
+
     grouped = (
         df.groupby(
             product_column
@@ -1516,7 +2428,9 @@ def sales_summary(info):
         )
     )
 
-    grouped = grouped.head(10)
+    grouped = grouped.head(
+        10
+    )
 
     return {
 
@@ -1526,11 +2440,12 @@ def sales_summary(info):
             f"📊 Top Selling Products — "
             f"Last {info['period_days']} Days",
 
-        "data": grouped,
+        "data":
+            grouped,
 
         "message":
-            "Here are the products with the highest "
-            "sales quantity."
+            "Here are the products with the "
+            "highest sales quantity."
     }
 
 
@@ -1540,21 +2455,42 @@ def sales_summary(info):
 
 def fast_moving_products(info):
 
-    df = filter_sales_data(info)
+    df = filter_sales_data(
+        info
+    )
 
-    quantity_column = find_quantity_column(df)
+    quantity_column = find_quantity_column(
+        df
+    )
 
-    product_column = find_product_column(df)
+    product_column = find_product_column(
+        df
+    )
 
     if (
         quantity_column is None
-        or product_column is None
+        or
+        product_column is None
     ):
 
         return {
             "type": "error",
             "message":
-                "Required sales columns were not found."
+                "Required sales columns "
+                "were not found."
+        }
+
+    if df.empty:
+
+        return {
+            "type": "table",
+            "title":
+                "🔥 Fast-Moving Products",
+            "data":
+                pd.DataFrame(),
+            "message":
+                "No sales records were found "
+                "for this question."
         }
 
     result = (
@@ -1578,7 +2514,8 @@ def fast_moving_products(info):
             f"🔥 Fast-Moving Products — "
             f"Last {info['period_days']} Days",
 
-        "data": result,
+        "data":
+            result,
 
         "message":
             "These products have the strongest "
@@ -1592,21 +2529,41 @@ def fast_moving_products(info):
 
 def slow_moving_products(info):
 
-    df = filter_sales_data(info)
+    df = filter_sales_data(
+        info
+    )
 
-    quantity_column = find_quantity_column(df)
+    quantity_column = find_quantity_column(
+        df
+    )
 
-    product_column = find_product_column(df)
+    product_column = find_product_column(
+        df
+    )
 
     if (
         quantity_column is None
-        or product_column is None
+        or
+        product_column is None
     ):
 
         return {
             "type": "error",
             "message":
-                "Required sales columns were not found."
+                "Required sales columns "
+                "were not found."
+        }
+
+    if df.empty:
+
+        return {
+            "type": "table",
+            "title":
+                "🐢 Slow-Moving Products",
+            "data":
+                pd.DataFrame(),
+            "message":
+                "No sales records were found."
         }
 
     result = (
@@ -1630,7 +2587,8 @@ def slow_moving_products(info):
             f"🐢 Slow-Moving Products — "
             f"Last {info['period_days']} Days",
 
-        "data": result,
+        "data":
+            result,
 
         "message":
             "These products have the lowest "
@@ -1644,15 +2602,17 @@ def slow_moving_products(info):
 
 def unsold_products(info):
 
-    sales = filter_sales_data(info)
+    sales = filter_sales_data(
+        info
+    )
 
     if "Product_ID" not in sales.columns:
 
         return {
             "type": "error",
             "message":
-                "Product_ID is required to identify "
-                "unsold products."
+                "Product_ID is required to "
+                "identify unsold products."
         }
 
     if "Product_ID" not in products_df.columns:
@@ -1660,7 +2620,8 @@ def unsold_products(info):
         return {
             "type": "error",
             "message":
-                "Product_ID is missing from products data."
+                "Product_ID is missing from "
+                "products data."
         }
 
     sold_ids = set(
@@ -1668,6 +2629,7 @@ def unsold_products(info):
             "Product_ID"
         ]
         .astype(str)
+        .str.strip()
     )
 
     result = products_df[
@@ -1675,12 +2637,20 @@ def unsold_products(info):
             "Product_ID"
         ]
         .astype(str)
-        .isin(sold_ids)
+        .str.strip()
+        .isin(
+            sold_ids
+        )
     ].copy()
 
     result = filter_products_by_category(
         result,
-        info["category"]
+        info.get("category")
+    )
+
+    result = filter_by_brand(
+        result,
+        info.get("brand")
     )
 
     return {
@@ -1691,11 +2661,12 @@ def unsold_products(info):
             f"🚫 Products Not Sold — "
             f"Last {info['period_days']} Days",
 
-        "data": result,
+        "data":
+            result,
 
         "message":
-            f"{len(result)} products had no sales "
-            f"during the selected period."
+            f"{len(result)} products had "
+            f"no sales during the selected period."
     }
 
 
@@ -1709,7 +2680,8 @@ def inventory_with_products():
 
     if (
         "Product_ID" in df.columns
-        and "Product_ID" in products_df.columns
+        and
+        "Product_ID" in products_df.columns
     ):
 
         product_columns = [
@@ -1728,10 +2700,13 @@ def inventory_with_products():
             if column in products_df.columns
         ]
 
-        product_data = products_df[
-            product_columns
-        ].drop_duplicates(
-            subset=["Product_ID"]
+        product_data = (
+            products_df[
+                product_columns
+            ]
+            .drop_duplicates(
+                subset=["Product_ID"]
+            )
         )
 
         df = df.merge(
@@ -1751,7 +2726,9 @@ def low_stock_products(info):
 
     df = inventory_with_products()
 
-    stock_column = find_stock_column(df)
+    stock_column = find_stock_column(
+        df
+    )
 
     if stock_column is None:
 
@@ -1761,10 +2738,10 @@ def low_stock_products(info):
                 "Stock column was not found."
         }
 
-    df[stock_column] = pd.to_numeric(
-        df[stock_column],
-        errors="coerce"
-    ).fillna(0)
+    df = clean_numeric_column(
+        df,
+        stock_column
+    )
 
     result = df[
         df[stock_column] <= 10
@@ -1772,7 +2749,12 @@ def low_stock_products(info):
 
     result = filter_products_by_category(
         result,
-        info["category"]
+        info.get("category")
+    )
+
+    result = filter_by_brand(
+        result,
+        info.get("brand")
     )
 
     result = result.sort_values(
@@ -1787,11 +2769,12 @@ def low_stock_products(info):
         "title":
             "🔴 Low Stock Products",
 
-        "data": result,
+        "data":
+            result,
 
         "message":
-            f"{len(result)} products are currently "
-            f"running low in stock."
+            f"{len(result)} products are "
+            f"currently running low in stock."
     }
 
 
@@ -1803,7 +2786,9 @@ def high_stock_products(info):
 
     df = inventory_with_products()
 
-    stock_column = find_stock_column(df)
+    stock_column = find_stock_column(
+        df
+    )
 
     if stock_column is None:
 
@@ -1813,10 +2798,10 @@ def high_stock_products(info):
                 "Stock column was not found."
         }
 
-    df[stock_column] = pd.to_numeric(
-        df[stock_column],
-        errors="coerce"
-    ).fillna(0)
+    df = clean_numeric_column(
+        df,
+        stock_column
+    )
 
     result = (
         df
@@ -1829,7 +2814,12 @@ def high_stock_products(info):
 
     result = filter_products_by_category(
         result,
-        info["category"]
+        info.get("category")
+    )
+
+    result = filter_by_brand(
+        result,
+        info.get("brand")
     )
 
     return {
@@ -1839,7 +2829,8 @@ def high_stock_products(info):
         "title":
             "📦 Highest Stock Products",
 
-        "data": result,
+        "data":
+            result,
 
         "message":
             "These products currently have "
@@ -1855,7 +2846,9 @@ def overstocked_products(info):
 
     df = inventory_with_products()
 
-    stock_column = find_stock_column(df)
+    stock_column = find_stock_column(
+        df
+    )
 
     if stock_column is None:
 
@@ -1865,10 +2858,13 @@ def overstocked_products(info):
                 "Stock column was not found."
         }
 
-    df[stock_column] = pd.to_numeric(
-        df[stock_column],
-        errors="coerce"
-    ).fillna(0)
+    df = clean_numeric_column(
+        df,
+        stock_column
+    )
+
+    # Current rule:
+    # 25 or more units = high inventory
 
     result = df[
         df[stock_column] >= 25
@@ -1876,7 +2872,12 @@ def overstocked_products(info):
 
     result = filter_products_by_category(
         result,
-        info["category"]
+        info.get("category")
+    )
+
+    result = filter_by_brand(
+        result,
+        info.get("brand")
     )
 
     result = result.sort_values(
@@ -1891,7 +2892,8 @@ def overstocked_products(info):
         "title":
             "📦 Overstocked Products",
 
-        "data": result,
+        "data":
+            result,
 
         "message":
             f"{len(result)} products have "
@@ -1919,32 +2921,74 @@ def purchase_recommendation(info):
                 "Stock column was not found."
         }
 
-    inventory[stock_column] = pd.to_numeric(
-        inventory[stock_column],
-        errors="coerce"
-    ).fillna(0)
+    inventory = clean_numeric_column(
+        inventory,
+        stock_column
+    )
+
+    # ------------------------------------------------------
+    # LOW STOCK FILTER
+    # ------------------------------------------------------
 
     result = inventory[
         inventory[stock_column] <= 10
     ].copy()
 
+    # ------------------------------------------------------
+    # CATEGORY FILTER
+    # ------------------------------------------------------
+
     result = filter_products_by_category(
         result,
-        info["category"]
+        info.get("category")
     )
 
-    # Target stock
+    # ------------------------------------------------------
+    # BRAND FILTER
+    # ------------------------------------------------------
+
+    result = filter_by_brand(
+        result,
+        info.get("brand")
+    )
+
+    # ------------------------------------------------------
+    # NO MATCH
+    # ------------------------------------------------------
+
+    if result.empty:
+
+        return {
+
+            "type": "table",
+
+            "title":
+                "🛒 Purchase Recommendation",
+
+            "data":
+                result,
+
+            "message":
+                "No low-stock products were found "
+                "for the selected category or brand."
+        }
+
+    # ------------------------------------------------------
+    # TARGET STOCK
+    # ------------------------------------------------------
+
     TARGET_STOCK = 30
 
     result["Suggested_Order"] = (
         TARGET_STOCK
-        - result[stock_column]
+        -
+        result[stock_column]
     ).clip(
         lower=0
     )
 
     # ------------------------------------------------------
-    # ESTIMATED COST
+    # PURCHASE PRICE
     # ------------------------------------------------------
 
     purchase_price_column = None
@@ -1962,23 +3006,55 @@ def purchase_recommendation(info):
 
     if purchase_price_column:
 
-        result[purchase_price_column] = pd.to_numeric(
-            result[purchase_price_column],
-            errors="coerce"
-        ).fillna(0)
+        result = clean_numeric_column(
+            result,
+            purchase_price_column
+        )
 
         result["Estimated_Cost"] = (
             result["Suggested_Order"]
-            * result[purchase_price_column]
+            *
+            result[purchase_price_column]
         )
+
+    else:
+
+        result["Estimated_Cost"] = 0
+
+
+    # ------------------------------------------------------
+    # REMOVE ZERO ORDERS
+    # ------------------------------------------------------
 
     result = result[
         result["Suggested_Order"] > 0
-    ]
+    ].copy()
+
+
+    # ------------------------------------------------------
+    # SORT
+    # ------------------------------------------------------
 
     result = result.sort_values(
         "Suggested_Order",
         ascending=False
+    )
+
+
+    # ------------------------------------------------------
+    # MESSAGE
+    # ------------------------------------------------------
+
+    category_text = (
+        info.get("category")
+        if info.get("category")
+        else "all categories"
+    )
+
+    brand_text = (
+        info.get("brand")
+        if info.get("brand")
+        else "all brands"
     )
 
     return {
@@ -1988,11 +3064,14 @@ def purchase_recommendation(info):
         "title":
             "🛒 Purchase Recommendation",
 
-        "data": result,
+        "data":
+            result,
 
         "message":
-            "These low-stock products are candidates "
-            "for replenishment."
+            f"Recommended products for "
+            f"{category_text} / {brand_text}. "
+            f"These items are low in stock "
+            f"and candidates for replenishment."
     }
 
 
@@ -2004,23 +3083,23 @@ def price_analysis(info):
 
     df = products_df.copy()
 
+    # ------------------------------------------------------
+    # CATEGORY
+    # ------------------------------------------------------
+
     df = filter_products_by_category(
         df,
-        info["category"]
+        info.get("category")
     )
 
     # ------------------------------------------------------
-    # BRAND FILTER
+    # BRAND
     # ------------------------------------------------------
 
-    detected_brand = info.get("brand")
-
-    if detected_brand:
-
-        df = filter_by_brand(
-            df,
-            detected_brand
-        )
+    df = filter_by_brand(
+        df,
+        info.get("brand")
+    )
 
     price_column = find_price_column(
         df
@@ -2031,32 +3110,39 @@ def price_analysis(info):
         return {
             "type": "error",
             "message":
-                "No price column was found in products data."
+                "No price column was found "
+                "in products data."
         }
 
-    df[price_column] = pd.to_numeric(
-        df[price_column],
-        errors="coerce"
+    df = clean_numeric_column(
+        df,
+        price_column
     )
 
-    df = df.dropna(
-        subset=[price_column]
-    )
+    df = df[
+        df[price_column] > 0
+    ].copy()
 
-    q = info["query"]
+    q = info.get(
+        "query",
+        ""
+    ).lower()
 
     # ------------------------------------------------------
     # EXPENSIVE
     # ------------------------------------------------------
 
-    if (
-        "costly" in q
-        or "costliest" in q
-        or "expensive" in q
-        or "most expensive" in q
-        or "highest price" in q
-        or "highest cost" in q
-        or "maximum price" in q
+    if contains_any(
+        q,
+        [
+            "costly",
+            "costliest",
+            "expensive",
+            "most expensive",
+            "highest price",
+            "highest cost",
+            "maximum price"
+        ]
     ):
 
         result = (
@@ -2075,23 +3161,28 @@ def price_analysis(info):
             "title":
                 "💰 Most Expensive Products",
 
-            "data": result,
+            "data":
+                result,
 
             "message":
-                f"The highest-priced products are shown "
-                f"using {price_column}."
+                f"The highest-priced products "
+                f"are shown using {price_column}."
         }
+
 
     # ------------------------------------------------------
     # CHEAPEST
     # ------------------------------------------------------
 
-    if (
-        "cheapest" in q
-        or "lowest price" in q
-        or "least expensive" in q
-        or "lowest cost" in q
-        or "minimum price" in q
+    if contains_any(
+        q,
+        [
+            "cheapest",
+            "lowest price",
+            "least expensive",
+            "lowest cost",
+            "minimum price"
+        ]
     ):
 
         result = (
@@ -2110,18 +3201,22 @@ def price_analysis(info):
             "title":
                 "🏷️ Lowest-Priced Products",
 
-            "data": result,
+            "data":
+                result,
 
             "message":
-                f"The lowest-priced products are shown "
-                f"using {price_column}."
+                f"The lowest-priced products "
+                f"are shown using {price_column}."
         }
+
 
     # ------------------------------------------------------
     # GENERAL PRICE
     # ------------------------------------------------------
 
-    result = df.head(20)
+    result = df.head(
+        20
+    )
 
     return {
 
@@ -2130,7 +3225,8 @@ def price_analysis(info):
         "title":
             "💰 Product Prices",
 
-        "data": result,
+        "data":
+            result,
 
         "message":
             "Here are the available product prices."
@@ -2143,7 +3239,9 @@ def price_analysis(info):
 
 def brand_analysis(info):
 
-    sales = filter_sales_data(info)
+    sales = filter_sales_data(
+        info
+    )
 
     sales = merge_product_information(
         sales
@@ -2155,18 +3253,35 @@ def brand_analysis(info):
 
     if (
         quantity_column is None
-        or "Brand" not in sales.columns
+        or
+        "Brand" not in sales.columns
     ):
 
         return {
             "type": "error",
             "message":
-                "Brand or sales quantity data was not found."
+                "Brand or sales quantity "
+                "data was not found."
+        }
+
+    if sales.empty:
+
+        return {
+            "type": "table",
+            "title":
+                "🏷️ Brand Sales Performance",
+            "data":
+                pd.DataFrame(),
+            "message":
+                "No brand sales were found "
+                "for the selected period."
         }
 
     brand_sales = (
         sales
-        .groupby("Brand")[quantity_column]
+        .groupby(
+            "Brand"
+        )[quantity_column]
         .sum()
         .reset_index()
         .sort_values(
@@ -2184,10 +3299,12 @@ def brand_analysis(info):
             f"🏷️ Brand Sales Performance — "
             f"Last {info['period_days']} Days",
 
-        "data": brand_sales,
+        "data":
+            brand_sales,
 
         "message":
-            "Brands are ranked according to sales quantity."
+            "Brands are ranked according "
+            "to sales quantity."
     }
 
 
@@ -2197,7 +3314,9 @@ def brand_analysis(info):
 
 def category_analysis(info):
 
-    sales = filter_sales_data(info)
+    sales = filter_sales_data(
+        info
+    )
 
     sales = merge_product_information(
         sales
@@ -2209,18 +3328,34 @@ def category_analysis(info):
 
     if (
         quantity_column is None
-        or "Category" not in sales.columns
+        or
+        "Category" not in sales.columns
     ):
 
         return {
             "type": "error",
             "message":
-                "Category or sales quantity data was not found."
+                "Category or sales quantity "
+                "data was not found."
+        }
+
+    if sales.empty:
+
+        return {
+            "type": "table",
+            "title":
+                "👕 Category Performance",
+            "data":
+                pd.DataFrame(),
+            "message":
+                "No category sales were found."
         }
 
     category_sales = (
         sales
-        .groupby("Category")[quantity_column]
+        .groupby(
+            "Category"
+        )[quantity_column]
         .sum()
         .reset_index()
         .sort_values(
@@ -2237,10 +3372,12 @@ def category_analysis(info):
             f"👕 Category Performance — "
             f"Last {info['period_days']} Days",
 
-        "data": category_sales,
+        "data":
+            category_sales,
 
         "message":
-            "Categories are ranked according to sales quantity."
+            "Categories are ranked according "
+            "to sales quantity."
     }
 
 
@@ -2250,7 +3387,9 @@ def category_analysis(info):
 
 def trend_analysis(info):
 
-    sales = filter_sales_data(info)
+    sales = filter_sales_data(
+        info
+    )
 
     date_column = find_date_column(
         sales
@@ -2262,23 +3401,31 @@ def trend_analysis(info):
 
     if (
         date_column is None
-        or quantity_column is None
+        or
+        quantity_column is None
     ):
 
         return {
             "type": "error",
             "message":
-                "Date or quantity column was not found."
+                "Date or quantity column "
+                "was not found."
         }
 
     sales = sales.dropna(
-        subset=[date_column]
+        subset=[
+            date_column
+        ]
     )
 
-    # Apply category filter
+    # ------------------------------------------------------
+    # CATEGORY
+    # ------------------------------------------------------
+
     if (
-        info["category"]
-        and "Category" in sales.columns
+        info.get("category")
+        and
+        "Category" in sales.columns
     ):
 
         sales = sales[
@@ -2288,6 +3435,41 @@ def trend_analysis(info):
             ==
             info["category"].lower()
         ]
+
+    # ------------------------------------------------------
+    # BRAND
+    # ------------------------------------------------------
+
+    if (
+        info.get("brand")
+        and
+        "Brand" in sales.columns
+    ):
+
+        sales = sales[
+            sales["Brand"]
+            .astype(str)
+            .str.lower()
+            ==
+            info["brand"].lower()
+        ]
+
+    if sales.empty:
+
+        return {
+            "type": "chart",
+            "title":
+                "📈 Sales Trend",
+            "data":
+                pd.DataFrame(),
+            "date_column":
+                date_column,
+            "quantity_column":
+                quantity_column,
+            "message":
+                "No data available "
+                "to calculate the trend."
+        }
 
     trend = (
         sales
@@ -2301,14 +3483,22 @@ def trend_analysis(info):
         )
     )
 
+    # ------------------------------------------------------
+    # TREND DIRECTION
+    # ------------------------------------------------------
+
     if len(trend) >= 2:
 
         first_value = float(
-            trend[quantity_column].iloc[0]
+            trend[
+                quantity_column
+            ].iloc[0]
         )
 
         last_value = float(
-            trend[quantity_column].iloc[-1]
+            trend[
+                quantity_column
+            ].iloc[-1]
         )
 
         if last_value > first_value:
@@ -2342,13 +3532,17 @@ def trend_analysis(info):
         "title":
             "📈 Sales Trend",
 
-        "data": trend,
+        "data":
+            trend,
 
-        "date_column": date_column,
+        "date_column":
+            date_column,
 
-        "quantity_column": quantity_column,
+        "quantity_column":
+            quantity_column,
 
-        "message": direction
+        "message":
+            direction
     }
 
 
@@ -2377,8 +3571,9 @@ def promotion_recommendation(info):
             slow["data"],
 
         "message":
-            "Slow-moving products may benefit from "
-            "promotions, bundles or targeted offers."
+            "Slow-moving products may benefit "
+            "from promotions, bundles or "
+            "targeted offers."
     }
 
 
@@ -2407,8 +3602,8 @@ def discount_recommendation(info):
             slow["data"],
 
         "message":
-            "These slower-moving products may be "
-            "candidates for a discount strategy."
+            "These slower-moving products may "
+            "be candidates for a discount strategy."
     }
 
 
@@ -2418,7 +3613,9 @@ def discount_recommendation(info):
 
 def budget_recommendation(info):
 
-    budget = info["budget"]
+    budget = info.get(
+        "budget"
+    )
 
     if budget is None:
 
@@ -2428,7 +3625,8 @@ def budget_recommendation(info):
 
             "message":
                 "Please specify a budget. "
-                "Example: What should I buy with ₹50,000?"
+                "Example: What should I buy "
+                "with ₹50,000?"
         }
 
     inventory = inventory_with_products()
@@ -2467,38 +3665,63 @@ def budget_recommendation(info):
             "type": "error",
 
             "message":
-                "Purchase price information was not found."
+                "Purchase price information "
+                "was not found."
         }
 
-    inventory[stock_column] = pd.to_numeric(
-        inventory[stock_column],
-        errors="coerce"
-    ).fillna(0)
+    inventory = clean_numeric_column(
+        inventory,
+        stock_column
+    )
 
-    inventory[purchase_price_column] = pd.to_numeric(
-        inventory[purchase_price_column],
-        errors="coerce"
-    ).fillna(0)
+    inventory = clean_numeric_column(
+        inventory,
+        purchase_price_column
+    )
 
     # ------------------------------------------------------
-    # LOW STOCK PRODUCTS FIRST
+    # LOW STOCK FIRST
     # ------------------------------------------------------
 
     inventory = inventory[
         inventory[stock_column] <= 10
     ].copy()
 
+    # ------------------------------------------------------
+    # CATEGORY
+    # ------------------------------------------------------
+
     inventory = filter_products_by_category(
         inventory,
-        info["category"]
+        info.get("category")
     )
 
+    # ------------------------------------------------------
+    # BRAND
+    # ------------------------------------------------------
+
+    inventory = filter_by_brand(
+        inventory,
+        info.get("brand")
+    )
+
+    # ------------------------------------------------------
+    # SUGGESTED ORDER
+    # ------------------------------------------------------
+
+    TARGET_STOCK = 30
+
     inventory["Suggested_Order"] = (
-        30
-        - inventory[stock_column]
+        TARGET_STOCK
+        -
+        inventory[stock_column]
     ).clip(
         lower=0
     )
+
+    # ------------------------------------------------------
+    # COST
+    # ------------------------------------------------------
 
     inventory["Estimated_Cost"] = (
         inventory["Suggested_Order"]
@@ -2508,10 +3731,10 @@ def budget_recommendation(info):
 
     inventory = inventory[
         inventory["Suggested_Order"] > 0
-    ]
+    ].copy()
 
     # ------------------------------------------------------
-    # SORT BY LOWER COST FIRST
+    # SORT BY COST
     # ------------------------------------------------------
 
     inventory = inventory.sort_values(
@@ -2519,9 +3742,15 @@ def budget_recommendation(info):
         ascending=True
     )
 
+    # ------------------------------------------------------
+    # SELECT WITHIN BUDGET
+    # ------------------------------------------------------
+
     selected_rows = []
 
-    remaining_budget = budget
+    remaining_budget = float(
+        budget
+    )
 
     for _, row in inventory.iterrows():
 
@@ -2545,11 +3774,14 @@ def budget_recommendation(info):
 
     else:
 
-        result = inventory.head(0)
+        result = inventory.head(
+            0
+        )
 
     spent = (
-        budget
-        - remaining_budget
+        float(budget)
+        -
+        remaining_budget
     )
 
     return {
@@ -2557,19 +3789,24 @@ def budget_recommendation(info):
         "type": "budget",
 
         "title":
-            f"💰 Purchase Plan Within ₹{budget:,.0f}",
+            f"💰 Purchase Plan Within "
+            f"₹{budget:,.0f}",
 
-        "data": result,
+        "data":
+            result,
 
-        "budget": budget,
+        "budget":
+            float(budget),
 
-        "spent": spent,
+        "spent":
+            spent,
 
-        "remaining": remaining_budget,
+        "remaining":
+            remaining_budget,
 
         "message":
-            f"Recommended products within your "
-            f"₹{budget:,.0f} budget."
+            f"Recommended products within "
+            f"your ₹{budget:,.0f} budget."
     }
 
 
@@ -2579,7 +3816,9 @@ def budget_recommendation(info):
 
 def business_summary(info):
 
-    sales = filter_sales_data(info)
+    sales = filter_sales_data(
+        info
+    )
 
     quantity_column = find_quantity_column(
         sales
@@ -2598,25 +3837,30 @@ def business_summary(info):
             "type": "error",
 
             "message":
-                "Sales quantity column was not found."
+                "Sales quantity column "
+                "was not found."
         }
 
     total_units = float(
-        sales[quantity_column].sum()
+        sales[
+            quantity_column
+        ].sum()
     )
 
     low_stock_count = 0
 
     if stock_column:
 
-        inventory[stock_column] = pd.to_numeric(
-            inventory[stock_column],
-            errors="coerce"
-        ).fillna(0)
+        inventory = clean_numeric_column(
+            inventory,
+            stock_column
+        )
 
         low_stock_count = int(
             (
-                inventory[stock_column] <= 10
+                inventory[
+                    stock_column
+                ] <= 10
             ).sum()
         )
 
@@ -2651,7 +3895,10 @@ def business_summary(info):
 
 def run_analysis(info):
 
-    intent = info["intent"]
+    intent = info.get(
+        "intent",
+        "sales_summary"
+    )
 
     # ------------------------------------------------------
     # SALES
@@ -2659,15 +3906,21 @@ def run_analysis(info):
 
     if intent == "sales_summary":
 
-        return sales_summary(info)
+        return sales_summary(
+            info
+        )
 
     if intent == "fast_moving":
 
-        return fast_moving_products(info)
+        return fast_moving_products(
+            info
+        )
 
     if intent == "slow_moving":
 
-        return slow_moving_products(info)
+        return slow_moving_products(
+            info
+        )
 
 
     # ------------------------------------------------------
@@ -2676,19 +3929,27 @@ def run_analysis(info):
 
     if intent == "unsold_products":
 
-        return unsold_products(info)
+        return unsold_products(
+            info
+        )
 
     if intent == "low_stock":
 
-        return low_stock_products(info)
+        return low_stock_products(
+            info
+        )
 
     if intent == "high_stock":
 
-        return high_stock_products(info)
+        return high_stock_products(
+            info
+        )
 
     if intent == "overstocked":
 
-        return overstocked_products(info)
+        return overstocked_products(
+            info
+        )
 
 
     # ------------------------------------------------------
@@ -2697,7 +3958,9 @@ def run_analysis(info):
 
     if intent == "purchase_recommendation":
 
-        return purchase_recommendation(info)
+        return purchase_recommendation(
+            info
+        )
 
 
     # ------------------------------------------------------
@@ -2706,7 +3969,9 @@ def run_analysis(info):
 
     if intent == "price_analysis":
 
-        return price_analysis(info)
+        return price_analysis(
+            info
+        )
 
 
     # ------------------------------------------------------
@@ -2715,7 +3980,9 @@ def run_analysis(info):
 
     if intent == "brand_analysis":
 
-        return brand_analysis(info)
+        return brand_analysis(
+            info
+        )
 
 
     # ------------------------------------------------------
@@ -2724,7 +3991,9 @@ def run_analysis(info):
 
     if intent == "category_analysis":
 
-        return category_analysis(info)
+        return category_analysis(
+            info
+        )
 
 
     # ------------------------------------------------------
@@ -2733,7 +4002,9 @@ def run_analysis(info):
 
     if intent == "trend_analysis":
 
-        return trend_analysis(info)
+        return trend_analysis(
+            info
+        )
 
 
     # ------------------------------------------------------
@@ -2742,7 +4013,9 @@ def run_analysis(info):
 
     if intent == "promotion_recommendation":
 
-        return promotion_recommendation(info)
+        return promotion_recommendation(
+            info
+        )
 
 
     # ------------------------------------------------------
@@ -2751,7 +4024,9 @@ def run_analysis(info):
 
     if intent == "discount_recommendation":
 
-        return discount_recommendation(info)
+        return discount_recommendation(
+            info
+        )
 
 
     # ------------------------------------------------------
@@ -2760,7 +4035,9 @@ def run_analysis(info):
 
     if intent == "budget_recommendation":
 
-        return budget_recommendation(info)
+        return budget_recommendation(
+            info
+        )
 
 
     # ------------------------------------------------------
@@ -2769,14 +4046,18 @@ def run_analysis(info):
 
     if intent == "business_summary":
 
-        return business_summary(info)
+        return business_summary(
+            info
+        )
 
 
     # ------------------------------------------------------
     # DEFAULT
     # ------------------------------------------------------
 
-    return sales_summary(info)
+    return sales_summary(
+        info
+    )
 
 
 # ==========================================================
@@ -2838,9 +4119,11 @@ def display_result(result):
 
     if result["type"] == "table":
 
-        st.success(
-            result["message"]
-        )
+        if result.get("message"):
+
+            st.success(
+                result["message"]
+            )
 
         st.markdown(
             f"### {result['title']}"
@@ -2867,7 +4150,9 @@ def display_result(result):
             f"### {result['title']}"
         )
 
-        chart_data = result["data"].copy()
+        chart_data = result[
+            "data"
+        ].copy()
 
         date_column = result[
             "date_column"
@@ -2877,16 +4162,32 @@ def display_result(result):
             "quantity_column"
         ]
 
-        if not chart_data.empty:
+        if (
+            not chart_data.empty
+            and
+            date_column in chart_data.columns
+            and
+            quantity_column in chart_data.columns
+        ):
 
-            chart_data = chart_data.set_index(
-                date_column
+            chart_data = (
+                chart_data
+                .set_index(
+                    date_column
+                )
             )
 
             st.line_chart(
                 chart_data[
                     quantity_column
                 ]
+            )
+
+        else:
+
+            st.info(
+                "No chart data is available "
+                "for this question."
             )
 
         return
@@ -2902,7 +4203,9 @@ def display_result(result):
             result["message"]
         )
 
-        col1, col2, col3 = st.columns(3)
+        col1, col2, col3 = st.columns(
+            3
+        )
 
         with col1:
 
@@ -2946,7 +4249,9 @@ def display_result(result):
             result["message"]
         )
 
-        col1, col2, col3, col4 = st.columns(4)
+        col1, col2, col3, col4 = st.columns(
+            4
+        )
 
         with col1:
 
@@ -2984,15 +4289,17 @@ def display_result(result):
 
             st.warning(
                 f"You currently have "
-                f"{result['low_stock']} low-stock products. "
-                f"Review replenishment before stock runs out."
+                f"{result['low_stock']} "
+                f"low-stock products. "
+                f"Review replenishment before "
+                f"stock runs out."
             )
 
         else:
 
             st.info(
-                "No products are currently below "
-                "the low-stock threshold."
+                "No products are currently "
+                "below the low-stock threshold."
             )
 
         return
@@ -3007,116 +4314,215 @@ def show_recommendation(
     result
 ):
 
-    intent = info["intent"]
+    intent = info[
+        "intent"
+    ]
 
     st.markdown(
         "### 💡 Business Recommendation"
     )
 
+
+    # ------------------------------------------------------
+    # FAST MOVING
+    # ------------------------------------------------------
+
     if intent == "fast_moving":
 
         st.info(
-            "🔥 Prioritize these fast-moving products "
-            "when planning your next purchase."
+            "🔥 Prioritize these fast-moving "
+            "products when planning your "
+            "next purchase."
         )
+
+
+    # ------------------------------------------------------
+    # SLOW MOVING
+    # ------------------------------------------------------
 
     elif intent == "slow_moving":
 
         st.warning(
-            "🐢 Consider promotions, bundles or "
-            "smaller future purchases for slow-moving items."
+            "🐢 Consider promotions, bundles "
+            "or smaller future purchases "
+            "for slow-moving items."
         )
+
+
+    # ------------------------------------------------------
+    # UNSOLD
+    # ------------------------------------------------------
 
     elif intent == "unsold_products":
 
         st.warning(
-            "📢 Consider discounts, bundles or "
-            "promotional campaigns for products with no sales."
+            "📢 Consider discounts, bundles "
+            "or promotional campaigns for "
+            "products with no sales."
         )
+
+
+    # ------------------------------------------------------
+    # LOW STOCK
+    # ------------------------------------------------------
 
     elif intent == "low_stock":
 
         st.warning(
-            "📦 Review these products for replenishment, "
-            "especially if they are also fast-moving."
+            "📦 Review these products for "
+            "replenishment, especially if "
+            "they are also fast-moving."
         )
+
+
+    # ------------------------------------------------------
+    # HIGH STOCK
+    # ------------------------------------------------------
 
     elif intent == "high_stock":
 
         st.info(
-            "📦 Monitor high-stock products carefully "
-            "to avoid over-purchasing."
+            "📦 Monitor high-stock products "
+            "carefully to avoid over-purchasing."
         )
+
+
+    # ------------------------------------------------------
+    # OVERSTOCK
+    # ------------------------------------------------------
 
     elif intent == "overstocked":
 
         st.warning(
-            "📦 These products have relatively high stock. "
-            "Consider slowing future purchases or using "
-            "promotions to improve inventory movement."
+            "📦 These products have relatively "
+            "high stock. Consider slowing future "
+            "purchases or using promotions."
         )
+
+
+    # ------------------------------------------------------
+    # PURCHASE
+    # ------------------------------------------------------
 
     elif intent == "purchase_recommendation":
 
         st.success(
-            "🛒 Prioritize low-stock products and compare "
-            "their recent sales movement before ordering."
+            "🛒 Prioritize low-stock products "
+            "and compare their recent sales "
+            "movement before ordering."
         )
+
+
+    # ------------------------------------------------------
+    # PRICE
+    # ------------------------------------------------------
 
     elif intent == "price_analysis":
 
         st.info(
-            "💰 Use price information together with sales "
-            "movement before changing your product mix."
+            "💰 Use price information together "
+            "with sales movement before changing "
+            "your product mix."
         )
+
+
+    # ------------------------------------------------------
+    # BRAND
+    # ------------------------------------------------------
 
     elif intent == "brand_analysis":
 
         st.success(
-            "🏷️ Strong-performing brands can receive "
-            "more purchasing and promotional attention."
+            "🏷️ Strong-performing brands can "
+            "receive more purchasing and "
+            "promotional attention."
         )
+
+
+    # ------------------------------------------------------
+    # CATEGORY
+    # ------------------------------------------------------
 
     elif intent == "category_analysis":
 
         st.success(
-            "👕 Focus inventory and purchasing on categories "
-            "with stronger demand."
+            "👕 Focus inventory and purchasing "
+            "on categories with stronger demand."
         )
+
+
+    # ------------------------------------------------------
+    # TREND
+    # ------------------------------------------------------
 
     elif intent == "trend_analysis":
 
         st.info(
-            "📈 Use the trend direction to plan inventory "
-            "and upcoming purchases."
+            "📈 Use the trend direction to "
+            "plan inventory and upcoming purchases."
         )
+
+
+    # ------------------------------------------------------
+    # PROMOTION
+    # ------------------------------------------------------
 
     elif intent == "promotion_recommendation":
 
         st.warning(
-            "📢 Consider promoting slower-moving products "
-            "to improve inventory turnover."
+            "📢 Consider promoting slower-moving "
+            "products to improve inventory turnover."
         )
+
+
+    # ------------------------------------------------------
+    # DISCOUNT
+    # ------------------------------------------------------
 
     elif intent == "discount_recommendation":
 
         st.warning(
-            "🏷️ Consider targeted discounts for products "
-            "that remain slow-moving."
+            "🏷️ Consider targeted discounts "
+            "for products that remain slow-moving."
         )
+
+
+    # ------------------------------------------------------
+    # BUDGET
+    # ------------------------------------------------------
 
     elif intent == "budget_recommendation":
 
         st.success(
-            "💰 Prioritize products that need replenishment "
-            "while keeping the purchase within your budget."
+            "💰 Prioritize products that need "
+            "replenishment while keeping the "
+            "purchase within your budget."
         )
+
+
+    # ------------------------------------------------------
+    # SUMMARY
+    # ------------------------------------------------------
+
+    elif intent == "business_summary":
+
+        st.info(
+            "📊 Use the overall business picture "
+            "to balance sales, inventory and "
+            "future purchases."
+        )
+
+
+    # ------------------------------------------------------
+    # DEFAULT
+    # ------------------------------------------------------
 
     else:
 
         st.info(
-            "📊 Review sales, inventory and purchase "
-            "movement together before making a decision."
+            "📊 Review sales, inventory and "
+            "purchase movement together "
+            "before making a decision."
         )
 
 
@@ -3126,7 +4532,8 @@ def show_recommendation(
 
 if (
     question
-    and data_loaded
+    and
+    data_loaded
 ):
 
     st.markdown("---")
@@ -3158,7 +4565,9 @@ if (
                 question
             )
 
-            info["brand"] = detected_brand
+            info["brand"] = (
+                detected_brand
+            )
 
 
             # ----------------------------------------------
@@ -3170,7 +4579,9 @@ if (
                 expanded=True
             ):
 
-                col1, col2, col3, col4 = st.columns(4)
+                col1, col2, col3, col4 = st.columns(
+                    4
+                )
 
                 with col1:
 
@@ -3181,6 +4592,7 @@ if (
                     st.code(
                         info["intent"]
                     )
+
 
                 with col2:
 
@@ -3194,6 +4606,7 @@ if (
                         )
                     )
 
+
                 with col3:
 
                     st.write(
@@ -3203,6 +4616,7 @@ if (
                     st.code(
                         f"{info['period_days']} days"
                     )
+
 
                 with col4:
 
@@ -3214,12 +4628,14 @@ if (
                         info["metric"]
                     )
 
+
                 if info.get("brand"):
 
                     st.write(
                         f"**Brand:** "
                         f"{info['brand']}"
                     )
+
 
                 if info.get("budget") is not None:
 
@@ -3242,7 +4658,9 @@ if (
             # STORE RESULT
             # ----------------------------------------------
 
-            st.session_state.analysis_result = result
+            st.session_state.analysis_result = (
+                result
+            )
 
 
             # ----------------------------------------------
@@ -3258,7 +4676,11 @@ if (
             # BUSINESS RECOMMENDATION
             # ----------------------------------------------
 
-            if result["type"] != "error":
+            if (
+                result
+                and
+                result.get("type") != "error"
+            ):
 
                 show_recommendation(
                     info,
@@ -3272,7 +4694,9 @@ if (
                 "❌ Analysis failed."
             )
 
-            st.exception(e)
+            st.exception(
+                e
+            )
 
 
 # ==========================================================
@@ -3281,12 +4705,14 @@ if (
 
 elif (
     not question
-    and data_loaded
+    and
+    data_loaded
 ):
 
     st.info(
-        "👆 Choose Custom Question or Example Question, "
-        "enter/select your question and click Analyse."
+        "👆 Choose Custom Question or "
+        "Example Question, enter/select "
+        "your question and click Analyse."
     )
 
 
@@ -3297,5 +4723,6 @@ elif (
 st.markdown("---")
 
 st.caption(
-    "🧞 TextileGenie AI — Rule-Based Textile Business Intelligence"
+    "🧞 TextileGenie AI — "
+    "Rule-Based Textile Business Intelligence"
 )
